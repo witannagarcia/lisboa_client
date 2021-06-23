@@ -70,7 +70,7 @@ class DishController extends Controller
 
                     $productImage = new DishImage();
                     $productImage->dish_id = $dish->id;
-                    $productImage->url = asset('/images/dishes/' . $dish->id . '/' . $imageName);
+                    $productImage->url = '/images/dishes/' . $dish->id . '/' . $imageName;
                     $productImage->save();
                 }
             }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="card card-signin flex-row my-5">
         <div class="card-img-left d-none d-md-flex">
-            <img src="https://www.rewardsnetwork.com/wp-content/uploads/2017/09/Management2.jpg" alt="">
+            <img src="{{ asset('images/elvaquero.jpeg') }}" alt="">
             <!-- Background image for card set in CSS! -->
         </div>
         <div class="card-body d-flex justify-content-around flex-column">

@@ -52,7 +52,7 @@
                               </tr>                                
                             @empty
                             <tr>
-                                <td colspan="4" class="text-center py-3"> There's not records to show</td>
+                                <td colspan="4" class="text-center py-3"> No hay categrías registradas</td>
                             </tr>                                
                             @endforelse
                         </tbody>

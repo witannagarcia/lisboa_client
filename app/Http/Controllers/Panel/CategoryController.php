@@ -50,6 +50,32 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
+        $path = public_path() . "/images/categories";
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $pathDish = public_path() . "/images/categories/" . $category->id;
+        if (!file_exists($pathDish)) {
+            mkdir($pathDish, 0777, true);
+        }
+
+        if ($request->has('image_banner')) {
+            $image = $request->image_banner;
+            $imageName = 'image_banner.' . $image->getClientOriginalExtension();
+            $directory = public_path() . '/images/categories/' . $category->id . '/';
+            $image->move($directory, $imageName);
+            $category->image_banner = '/images/categories/' . $category->id . '/' . $imageName;
+        }
+
+        if ($request->has('image_icon')) {
+            $image = $request->image_icon;
+            $imageName = 'image_icon.' . $image->getClientOriginalExtension();
+            $directory = public_path() . '/images/categories/' . $category->id . '/';
+            $image->move($directory, $imageName);
+            $category->image_icon = '/images/categories/' . $category->id . '/' . $imageName;
+        }
+
         return redirect('/panel/categorias')->with("success", "Categoría creada exitosamente.");
     }
 
@@ -110,7 +136,7 @@ class CategoryController extends Controller
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();
             $directory = public_path() . '/images/categories/' . $id . '/';
             $image->move($directory, $imageName);
-            $category->image_banner = asset('/images/categories/' . $id . '/' . $imageName);
+            $category->image_banner = '/images/categories/' . $id . '/' . $imageName;
         }
 
         if ($request->has('image_icon')) {
@@ -118,7 +144,7 @@ class CategoryController extends Controller
             $imageName = 'image_icon.' . $image->getClientOriginalExtension();
             $directory = public_path() . '/images/categories/' . $id . '/';
             $image->move($directory, $imageName);
-            $category->image_icon = asset('/images/categories/' . $id . '/' . $imageName);
+            $category->image_icon = '/images/categories/' . $id . '/' . $imageName;
         }
 
         $category->save();

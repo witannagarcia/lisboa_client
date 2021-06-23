@@ -1,7 +1,8 @@
 @extends('layouts.panel')
 @section('content')
     <div class="row">
-        <div class="col-12 pb-2 mb-2 border-bottom">
+        <div class="col-12 pb-2 mb-2 border-bottom d-flex justify-content-between">
+            <h3>Platillos</h3>
                             <a class="btn btn-primary float-right" href="{{ url('/panel/platillos/create') }}">
                                 <span class="btn-inner--icon">
                                     <i class="mdi mdi-plus"></i>
@@ -11,7 +12,7 @@
                             
         </div>
         
-        @foreach($dishes as $dish)
+        @forelse($dishes as $dish)
          <div class="col-sm-3 mb-2">
             <div class="card cardDish">
                 <div class="card-image">
@@ -36,7 +37,11 @@
                 </div>
               </div>
          </div>
-        @endforeach
+         @empty
+             <div class="col-12">
+                <h5 class="text-center py-3"> No hay categrías registradas</h5>  
+            </div>                             
+         @endforelse
         
         <!--<div class="col-12">
             <div class="card mb-4">

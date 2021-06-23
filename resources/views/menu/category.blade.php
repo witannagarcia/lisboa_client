@@ -14,7 +14,7 @@
     <div class="row">        
         <div class="col-sm-12">
             <div class="imageBanner">
-                <img src="{{ $category->image_banner }}" class="mw-100" alt="">
+                <img src="{{ asset($category->image_banner) }}" class="mw-100" alt="">
             </div>
         </div>       
 </div>
@@ -25,7 +25,7 @@
         <a href="{{ url('/menu/platillo/'.$dish->id) }}" class="text-decoration-none">
             <div class="card cardDish border-0 rounded-lg h-100">
                 <div class="card-body p-0">
-                    <img src="{{ $dish->image->url}}" class="mw-100" alt="">
+                    <img src="{{ asset($dish->image->url)}}" class="mw-100" alt="">
                     <span class="badge badge-pill badge-primary">${{ $dish->price }}</span>
                 </div>
                 <div class="card-footer poppins h-100 text-center text-dark text-decoration-none d-flex justify-content-center align-items-center">

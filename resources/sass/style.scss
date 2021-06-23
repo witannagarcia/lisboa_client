@@ -14,6 +14,22 @@
         }
 }
 
+.image{
+    width: 150px;
+    height: 150px;
+    position: relative;
+    img{
+        object-fit: cover;
+   width: 100%;
+   height: 150px; 
+    }
+    .deleteBtn{
+        position: absolute;
+        top: -10px;
+        right: -10px;
+    }
+}
+
 #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         color: #751133;
         background-color: transparent;

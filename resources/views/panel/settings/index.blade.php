@@ -38,15 +38,14 @@
 								<h5>Logo</h5>
 								<hr>
 								@if($settings->logo)
-                                      <img src="{{ $settings->logo }}"
+                                      <img src="{{ asset($settings->logo) }}"
                                                             style="width:240px; height: 240px;" class="image-thumbnail d-block mx-auto my-3 me-2">
                                       @else
                                       <img src="https://ui-avatars.com/api/?name={{ $settings->name }}"
                                                             style="width:240px; height: 240px;" class="image-thumbnail d-block mx-auto my-3 me-2">
                                       @endif
 								<label for="logoRestaurant" class="btn btn-primary btn-block">
-									<input type="hidden" name="logo">
-									<input type="file" class="d-none" id="logoRestaurant">
+									<input type="file"  name="logo_setting" class="d-none" id="logoRestaurant">
 									Seleccionar imagen
 								</label>
 							</div>
@@ -78,7 +77,6 @@
     fileReader.readAsDataURL(files);
     fileReader.addEventListener("load", function () {
       $('.image-thumbnail').attr('src', this.result)
-	  $('input[name="logo"]').val(this.result)
     });    
   }
 }

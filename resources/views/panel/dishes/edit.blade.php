@@ -116,14 +116,16 @@
                                 <div id="gallery" class="mt-2">
                                     <h5>Imagenes actuales</h5>
                                     <hr>
-                                    @foreach ($dish->images as $image)
-                                        <div class="image">
+                                    <div class="w-100">
+                                        @foreach ($dish->images as $image)
+                                        <div class="image float-left mr-3">
                                             <a class="btn btn-icons deleteBtn btn-danger btn-rounded" data-toggle="modal" data-target="#deleteModal" data-id="{{ $image->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                             <img src="{{ $image->url }}" alt="">
                                         </div>
                                     @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -14218,11 +14218,9 @@ dl {
       color: #fff;
       height: 60px;
       width: 48px;
-      background: #000;
       right: 100%;
       border-bottom-left-radius: 50px;
-      border-top-left-radius: 50px;
-      position: absolute; }
+      border-top-left-radius: 50px; }
       @media (max-width: 991px) {
         .navbar .navbar-menu-wrapper .navbar-toggler {
           position: static;

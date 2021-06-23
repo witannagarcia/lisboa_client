@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Menu | {{ env('APP_NAME', '') }}</title>
     <link rel="stylesheet" href="{{ asset('css/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
 </head>
 <body>
@@ -50,6 +52,8 @@
           @endif
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{{ asset('js/slick.js') }}"></script>
+
     <script>
 
 $(window).on('load', function() {
@@ -62,5 +66,6 @@ $('#hamburger').click(function() {
   });
 
     </script>
+    @yield('scripts')
 </body>
 </html>

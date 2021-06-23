@@ -22,7 +22,7 @@ class DishController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->get();
         return view('panel.dishes.create', ["categories" => $categories]);
     }
 
@@ -82,7 +82,7 @@ class DishController extends Controller
     public function edit($id)
     {
         $dish = Dish::find($id);
-        $categories = Category::all();
+        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->get();
         return view('panel.dishes.edit', ["dish" => $dish, "categories" => $categories]);
     }
 

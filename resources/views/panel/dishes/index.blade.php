@@ -13,10 +13,10 @@
         </div>
         
         @forelse($dishes as $dish)
-         <div class="col-sm-3 mb-2">
+         <div class="col-sm-4 col-md-4 col-lg-3 mb-2">
             <div class="card cardDish">
                 <div class="card-image">
-                    @if($dish->exists('images'))
+                    @if($dish->images()->exists())
                 <img alt="Card image cap" class="" src="{{ $dish->image->url }}" />
                 @else
                 @endif 

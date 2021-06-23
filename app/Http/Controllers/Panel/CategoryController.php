@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('restaurant_id', Auth::user()->restaurant_id)->paginate(8);
+        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->paginate(8);
         return view('panel.categories.index', ["categories" => $categories]);
     }
 

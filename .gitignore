@@ -1,4 +1,7 @@
 /node_modules
+/public/images/restaurants/*
+/public/images/categories/*
+/public/images/dishes/*
 /public/hot
 /public/storage
 /storage/*.key

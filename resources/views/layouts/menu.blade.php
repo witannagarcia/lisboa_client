@@ -12,7 +12,7 @@
 </head>
 <body>
     <div id="loading">
-        <img src="{{ $restaurant->setting->logo}}" alt="">
+        <img src="{{ Storage::disk('public')->url($restaurant->setting->logo) }}" alt="">
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
     <div class="container">

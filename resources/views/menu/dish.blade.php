@@ -16,7 +16,7 @@
             <div class="imageBanner">
                 @if($dish->images()->exists())
                 @foreach ($dish->images as $image)
-                <img src="{{ asset($image->url) }}" class="mw-100" alt="">                    
+                <img src="{{ Storage::disk('public')->url($image->url) }}" class="mw-100" alt="">                    
                 @endforeach
                 @else
                 @endif
@@ -52,7 +52,7 @@
         <a href="{{ url('/menu/platillo/'.$similar->id) }}" class="text-decoration-none">
             <div class="card cardDish border-0 rounded-lg h-100">
                 <div class="card-body p-0">
-                    <img src="{{ asset($similar->image->url) }}" class="mw-100" alt="">
+                    <img src="{{ Storage::disk('public')->url($similar->image->url) }}" class="mw-100" alt="">
                     <span class="badge badge-pill badge-primary">${{ $similar->price }}</span>
                 </div>
                 <div class="card-footer poppins h-100 text-center text-dark text-decoration-none d-flex justify-content-center align-items-center">

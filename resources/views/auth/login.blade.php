@@ -3,7 +3,7 @@
 @section('content')
     <div class="card card-signin flex-row my-5">
         <div class="card-img-left d-none d-md-flex">
-            <img src="{{ asset('images/elvaquero.jpeg') }}" alt="">
+            <img src="{{ asset('images/ribeye.jpeg') }}" class="mh-100"alt="">
             <!-- Background image for card set in CSS! -->
         </div>
         <div class="card-body d-flex justify-content-around flex-column">

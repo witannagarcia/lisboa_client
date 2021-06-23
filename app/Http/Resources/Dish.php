@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use App\Http\Resources\DishImage as DishImageResource;
+
 class Dish extends JsonResource
 {
     /**
@@ -21,7 +23,8 @@ class Dish extends JsonResource
             'category_id' => $this->category_id,
             'preparation_time' => $this->price,
             'preview' => $this->preview,
-            'description' => $this->description
+            'description' => $this->description,
+            'images' => DishImageResource::collection($this->images)
             //'created_at' => $this->created_at->format('d/m/Y'),
             //'updated_at' => $this->updated_at->format('d/m/Y'),
         ];

@@ -15,9 +15,9 @@ class DishController extends BaseController
     {
         $queries = $request->query();
         if(count($queries) > 0)
-        $dishes = Dish::where($queries)->where('restaurant_id', env('RESTAURANT_ID'))->get();
+        $dishes = Dish::where($queries)->where('restaurant_id', env('RESTAURANT_ID'))->with('images')->get();
         else
-        $dishes = Dish::where('restaurant_id', env('RESTAURANT_ID'))->get();
+        $dishes = Dish::where('restaurant_id', env('RESTAURANT_ID'))->with('images')->get();
 
         return $this->sendResponse(DishResource::collection($dishes), 'Dishes retrieved successfully.');
     }
@@ -25,6 +25,7 @@ class DishController extends BaseController
     public function show($id)
     {
         $dish = new DishResource(Dish::findOrFail($id));
+        $dish->images;
         return $this->sendResponse($dish, 'Dish retrieved successfully.');
     }
 }

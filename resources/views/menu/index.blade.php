@@ -12,7 +12,7 @@
             @foreach($restaurant->categories as $category)
                 <div class="col-6 categoryBox rounded my-2">
                     <a href="{{ url('/menu/categoria/'.$category->id) }}">
-                        <img src="{{ asset($category->image_banner) }}" class="mw-100" alt="">
+                        <img src="{{ Storage::disk('public')->url($category->image_banner) }}" class="mw-100" alt="">
                         <span class="poppins">{{ $category->name }}</span> 
                     </a>                            
             </div>

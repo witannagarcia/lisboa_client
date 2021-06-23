@@ -9,6 +9,7 @@ use App\Models\DishImage;
 use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Str;
 
@@ -66,7 +67,8 @@ class DishController extends Controller
                 if (is_file($image)) {
                     $imageName = Str::random(24) . '.' . $image->getClientOriginalExtension();
                     $directory = public_path() . '/images/dishes/' . $dish->id . '/';
-                    $image->move($directory, $imageName);
+                    //$image->move($directory, $imageName);
+                    Storage::disk('public')->put('/images/dishes/' . $dish->id . '/'.$imageName, file_get_contents($image));
 
                     $productImage = new DishImage();
                     $productImage->dish_id = $dish->id;
@@ -107,16 +109,6 @@ class DishController extends Controller
         $dish->price_half = $request->price_half;
         $dish->save();
 
-        $path = public_path() . "/images/dishes";
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $pathDish = public_path() . "/images/dishes/" . $dish->id;
-        if (!file_exists($pathDish)) {
-            mkdir($pathDish, 0777, true);
-        }
-
         $images = $request->file('files');
 
         if ($images) {
@@ -124,12 +116,11 @@ class DishController extends Controller
 
                 if (is_file($image)) {
                     $imageName = Str::random(24) . '.' . $image->getClientOriginalExtension();
-                    $directory = public_path() . '/images/dishes/' . $dish->id . '/';
-                    $image->move($directory, $imageName);
+                    Storage::disk('public')->put('/images/dishes/' . $id . '/'.$imageName, file_get_contents($image));
 
                     $productImage = new DishImage();
                     $productImage->dish_id = $dish->id;
-                    $productImage->url = asset('/images/dishes/' . $dish->id . '/' . $imageName);
+                    $productImage->url = '/images/dishes/' . $dish->id . '/' . $imageName;
                     $productImage->save();
                 }
             }

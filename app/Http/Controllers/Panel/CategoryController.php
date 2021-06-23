@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -50,7 +51,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        $path = public_path() . "/images/categories";
+        /*$path = public_path() . "/images/categories";
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
@@ -58,21 +59,19 @@ class CategoryController extends Controller
         $pathDish = public_path() . "/images/categories/" . $category->id;
         if (!file_exists($pathDish)) {
             mkdir($pathDish, 0777, true);
-        }
+        }*/
 
-        if ($request->has('image_banner')) {
+        if ($request->hasFile('image_banner')) {
             $image = $request->image_banner;
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();
-            $directory = public_path() . '/images/categories/' . $category->id . '/';
-            $image->move($directory, $imageName);
+            Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
             $category->image_banner = '/images/categories/' . $category->id . '/' . $imageName;
         }
 
-        if ($request->has('image_icon')) {
+        if ($request->hasFile('image_icon')) {
             $image = $request->image_icon;
             $imageName = 'image_icon.' . $image->getClientOriginalExtension();
-            $directory = public_path() . '/images/categories/' . $category->id . '/';
-            $image->move($directory, $imageName);
+            Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
             $category->image_icon = '/images/categories/' . $category->id . '/' . $imageName;
         }
 
@@ -131,19 +130,17 @@ class CategoryController extends Controller
             mkdir($pathDish, 0777, true);
         }
 
-        if ($request->has('image_banner')) {
+        if ($request->hasFile('image_banner')) {
             $image = $request->image_banner;
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();
-            $directory = public_path() . '/images/categories/' . $id . '/';
-            $image->move($directory, $imageName);
+            Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
             $category->image_banner = '/images/categories/' . $id . '/' . $imageName;
         }
 
-        if ($request->has('image_icon')) {
+        if ($request->hasFile('image_icon')) {
             $image = $request->image_icon;
             $imageName = 'image_icon.' . $image->getClientOriginalExtension();
-            $directory = public_path() . '/images/categories/' . $id . '/';
-            $image->move($directory, $imageName);
+            Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
             $category->image_icon = '/images/categories/' . $id . '/' . $imageName;
         }
 

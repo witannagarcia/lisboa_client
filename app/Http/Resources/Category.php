@@ -19,8 +19,8 @@ class Category extends JsonResource
             'id' => $this->id,
             'restaurant_id' => $this->restaurant_id,
             'name' => $this->name,
-            'image_banner' => $this->image_banner ? env('APP_URL').Storage::url($this->image_banner):NULL,
-            'image_icon' => $this->image_icon ? env('APP_URL').Storage::url($this->image_icon):NULL,
+            'image_banner' => $this->image_banner ? Storage::disk('public')->url($this->image_banner):NULL,
+            'image_icon' => $this->image_icon ? Storage::disk('public')->url($this->image_icon):NULL,
         ];
     }
 }

@@ -38,7 +38,7 @@
 								<h5>Logo</h5>
 								<hr>
 								@if($settings->logo)
-                                      <img src="{{ asset($settings->logo) }}"
+                                      <img src="{{ Storage::disk('public')->url($settings->logo) }}"
                                                             style="width:240px; height: 240px;" class="image-thumbnail d-block mx-auto my-3 me-2">
                                       @else
                                       <img src="https://ui-avatars.com/api/?name={{ $settings->name }}"

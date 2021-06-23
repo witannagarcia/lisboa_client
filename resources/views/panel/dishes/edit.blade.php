@@ -122,7 +122,7 @@
                                             <a class="btn btn-icons deleteBtn btn-danger btn-rounded" data-toggle="modal" data-target="#deleteModal" data-id="{{ $image->id }}">
                                                 <i class="fa fa-trash"></i>
                                             </a>
-                                            <img src="{{ $image->url }}" alt="">
+                                            <img src="{{ Storage::disk('public')->url($image->url)}}" alt="">
                                         </div>
                                     @endforeach
                                     </div>

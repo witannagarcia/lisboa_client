@@ -34,9 +34,12 @@
                                     <tr>
                                         <th>
                                             @if ($category->image_banner)
-                                                <img src="{{ $category->image_banner }}"
-                                                    class="avatar avatar-sm rounded-circle me-2">
+                                                @if (Storage::disk('public')->exists($category->image_banner))
+                                                    <img src="{{ Storage::disk('public')->url($category->image_banner) }}"
+                                                        class="avatar avatar-sm rounded-circle me-2">
+                                                @endif
                                             @else
+                                            
                                                 <img src="https://ui-avatars.com/api/?name={{ $category->name }}"
                                                     class="avatar avatar-sm rounded-circle me-2">
                                             @endif

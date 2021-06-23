@@ -25,7 +25,7 @@
                                 <h5>Imagen banner</h5>
 								<hr>
 								@if($category->image_banner)
-                                      <img src="{{ $category->image_banner }}"
+                                      <img src="{{ Storage::disk('public')->url($category->image_banner) }}"
                                                             style="width:240px; height: 240px;" class="image-thumbnail banner d-block mx-auto my-3 me-2">
                                       @else
                                       <img src="https://ui-avatars.com/api/?name={{ $category->name }}"
@@ -40,7 +40,7 @@
                                 <h5>Imagen icono</h5>
 								<hr>
 								@if($category->image_icon)
-                                      <img src="{{ $category->image_icon }}"
+                                      <img src="{{ Storage::disk('public')->url($category->image_icon) }}"
                                                             style="width:50px; height: 50px;" class="image-thumbnail icon d-block mx-auto my-3 me-2">
                                       @else
                                       <img src="https://ui-avatars.com/api/?name={{ $category->name }}"

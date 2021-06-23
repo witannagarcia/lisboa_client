@@ -17,7 +17,7 @@
             <div class="card cardDish">
                 <div class="card-image">
                     @if($dish->images()->exists())
-                <img alt="Card image cap" class="" src="{{ $dish->image->url }}" />
+                <img alt="Card image cap" class="" src="{{ Storage::disk('public')->url($dish->image->url) }}" />
                 @else
                 @endif 
                 </div>                                  

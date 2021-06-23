@@ -119,17 +119,6 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
 
-
-        $path = public_path() . "/images/categories";
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $pathDish = public_path() . "/images/categories/" . $id;
-        if (!file_exists($pathDish)) {
-            mkdir($pathDish, 0777, true);
-        }
-
         if ($request->hasFile('image_banner')) {
             $image = $request->image_banner;
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();

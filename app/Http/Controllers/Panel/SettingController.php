@@ -27,10 +27,6 @@ class SettingController extends Controller
 
             if ($set->logo !== NULL) {
                 $name = last(explode("/", Auth::user()->restaurant->setting->logo));
-                $pathDelete = public_path() . "/images/restaurants/" . Auth::user()->restaurant_id . '/' . $name;
-                if (file_exists($pathDelete)) {
-                    unlink($pathDelete);
-                }
             }
             $image = $request->logo_setting;
             $imageName = 'logo_' . Str::random(12) . '.' . $image->getClientOriginalExtension();

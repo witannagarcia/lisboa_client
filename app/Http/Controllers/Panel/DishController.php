@@ -49,16 +49,6 @@ class DishController extends Controller
         $dish->price_half = $request->price_half;
         $dish->save();
 
-        $path = public_path() . "/images/dishes";
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $pathDish = public_path() . "/images/dishes/" . $dish->id;
-        if (!file_exists($pathDish)) {
-            mkdir($pathDish, 0777, true);
-        }
-
         $images = $request->file('files');
 
         if ($images) {

@@ -66,15 +66,18 @@ class CategoryController extends Controller
             $image = $request->image_banner;
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();
             Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
-            $category->image_banner = '/images/categories/' . $category->id . '/' . $imageName;
+            \DB::table('categories')->where('id', $category->id)->update(['image_banner'=>'/images/categories/' . $category->id . '/' . $imageName]);
         }
 
         if ($request->hasFile('image_icon')) {
             $image = $request->image_icon;
             $imageName = 'image_icon.' . $image->getClientOriginalExtension();
             Storage::disk('public')->put('/images/categories/' . $category->id . '/'.$imageName, file_get_contents($image));
-            $category->image_icon = '/images/categories/' . $category->id . '/' . $imageName;
+            \DB::table('categories')->where('id', $category->id)->update(['image_icon'=>'/images/categories/' . $category->id . '/' . $imageName]);
         }
+
+        $category->save();
+        
 
         return redirect('/panel/categorias')->with("success", "Categoría creada exitosamente.");
     }

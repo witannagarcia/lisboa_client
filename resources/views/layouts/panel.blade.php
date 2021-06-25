@@ -7,6 +7,7 @@
     <title>{{ env('APP_NAME')}}</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('css/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendors/css/vendor.bundle.base.css') }}">
     <!-- endinject -->
@@ -177,7 +178,12 @@
                   <span class="mdi mdi-chevron-double-left"></span>
                 </button>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/cocina/ordenes') }}">
+                <i class="fas fa-concierge-bell"></i>
+                </a>
+              </li>
+              <!--<li class="nav-item dropdown">
                 <a class="nav-link" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                   <i class="mdi mdi-email-outline"></i>
                 </a>
@@ -262,7 +268,7 @@
                   <div class="dropdown-divider"></div>
                   <h6 class="p-3 font-13 mb-0 text-primary text-center">View all notifications</h6>
                 </div>
-              </li>
+              </li>-->
             </ul>
             <ul class="navbar-nav navbar-nav-right">
               <!--<li class="nav-item nav-logout d-none d-md-block mr-3">

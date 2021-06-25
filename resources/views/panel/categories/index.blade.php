@@ -12,7 +12,7 @@
                                 <span class="btn-inner--icon">
                                     <i class="mdi mdi-plus"></i>
                                 </span>
-                                <span class="btn-inner--text">Crear categora</span>
+                                <span class="btn-inner--text">Crear categoría</span>
                             </a>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'restaurant_id'=> env('RESTAURANT_ID')])){ 
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'restaurant_id'=> env('RESTAURANT_ID'), 'role'=>'cliente'])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken(env('APP_HASH', Str::random(12)))-> accessToken; 
             $success['user'] =  $user;

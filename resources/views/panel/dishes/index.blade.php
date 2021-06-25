@@ -39,7 +39,7 @@
          </div>
          @empty
              <div class="col-12">
-                <h5 class="text-center py-3"> No hay categrías registradas</h5>  
+                <h5 class="text-center py-3"> No hay platillos registrados</h5>  
             </div>                             
          @endforelse
         

@@ -24,5 +24,7 @@ Route::resource('categories', Controllers\API\CategoryController::class)->only([
      
 Route::middleware('auth:api')->group( function () {
     Route::get('me', [Controllers\API\AuthController::class, 'me']);
-    Route::post('logout', [Controllers\API\AuthController::class, 'logout']);    
+    Route::post('logout', [Controllers\API\AuthController::class, 'logout']);
+    Route::resource('locations', Controllers\API\LocationController::class);
 });
+

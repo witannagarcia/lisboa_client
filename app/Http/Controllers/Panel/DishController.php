@@ -17,7 +17,7 @@ class DishController extends Controller
 {
     public function index()
     {
-        $dishes = Dish::paginate(8);
+        $dishes = Dish::where('restaurant_id', env('RESTAURANT_ID'))->paginate(8);
         return view('panel.dishes.index', ["dishes" => $dishes]);
     }
 

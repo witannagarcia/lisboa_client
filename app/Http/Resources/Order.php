@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Location as LocationResource;
 
 class Order extends JsonResource
 {
@@ -17,7 +18,8 @@ class Order extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'status' => $this->status,
+            'location' => $this->location_id ? new LocationResource($this->location):NULL,
         ];
     }
 }

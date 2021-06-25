@@ -52,10 +52,12 @@ class OrderController extends BaseController
         foreach ($request->dishes as $dish){
             $orderDish = new OrderDish();
             $orderDish->order_id = $order->id;
-            $order->dish_id = $dish->id;
-            $order->special_instructions = $dish->special_instructions;
-            $order->save();
+            $orderDish->dish_id = $dish["id"];
+            $orderDish->special_instructions = $dish["special_instructions"];
+            $orderDish->save();
         }
+
+        return $this->sendResponse(new OrderResource($order), 'Order stored successfully.');
     }
 
     /**

@@ -36,7 +36,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->where('restaurant_id', env('RESTAURANT_ID'))->where('role', 'cliente')->first();
+        $user = User::where('email', $request->email)->where('restaurant_id', env('RESTAURANT_ID'))->where('role', 'restaurante')->first();
 
         if($user){
 

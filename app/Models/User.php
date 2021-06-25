@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Restaurant');
     }
+
+    public function locations()
+    {
+        return $this->hasMany('App\Models\Location');
+    }
 }

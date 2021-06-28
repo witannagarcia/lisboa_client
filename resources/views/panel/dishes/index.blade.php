@@ -29,8 +29,8 @@
                         Modificar
                     </a>
                     <a class="btn btn-danger deleteBtn"
-                    data-id="{{ $dish->id }}" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
+                    data-id="{{ $dish->id }}" data-toggle="modal"
+                    data-target="#deleteModal">
                         Eliminar
                     </a>
                   </div>

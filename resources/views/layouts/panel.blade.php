@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>{{ env('APP_NAME')}}</title>
+    <title>{{ env('APP_NAME') }}</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('css/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -12,33 +13,35 @@
     <link rel="stylesheet" href="{{ asset('css/vendors/css/vendor.bundle.base.css') }}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{ asset('css/vendors/jquery-bar-rating/css-stars.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/vendors/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/vendors/jquery-bar-rating/css-stars.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/vendors/font-awesome/css/font-awesome.min.css') }}" />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item nav-profile border-bottom">
-            <a href="#" class="nav-link flex-column">
-              <div class="nav-profile-image">
-                <img src="{{ asset('images/logo.jpeg') }}" alt="profile" />
-                <!--change to offline or busy as needed-->
-              </div>
-              <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-                <span class="font-weight-semibold mb-1 mt-2 text-center">{{Auth::user()->restaurant->name }}</span>
-                <span class="text-secondary icon-sm text-center">{{ Auth::user()->name }}</span>
-              </div>
-            </a>
-          </li>
-          <!--<li class="nav-item pt-3">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile border-bottom">
+                    <a href="#" class="nav-link flex-column">
+                        <div class="nav-profile-image">
+                            <img src="{{ asset('images/logo.jpeg') }}" alt="profile" />
+                            <!--change to offline or busy as needed-->
+                        </div>
+                        <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
+                            <span
+                                class="font-weight-semibold mb-1 mt-2 text-center">{{ Auth::user()->restaurant->name }}</span>
+                            <span class="text-secondary icon-sm text-center">{{ Auth::user()->name }}</span>
+                        </div>
+                    </a>
+                </li>
+                <!--<li class="nav-item pt-3">
             <a class="nav-link d-block" href="index.html">
               <img class="sidebar-brand-logo" src="../assets/images/logo.svg" alt="" />
               <img class="sidebar-brand-logomini" src="../assets/images/logo-mini.svg" alt="" />
@@ -53,40 +56,40 @@
               </div>
             </form>
           </li>-->
-          <li class="pt-2 pb-1">
-            <span class="nav-item-head">Administración</span>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/panel/dashbaord') }}">
-              <i class="mdi mdi-compass-outline menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/panel/categorias') }}">
-                <i class="mdi mdi-drawing menu-icon"></i>
-              <span class="menu-title">Categorias</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/panel/platillos') }}">
-                <i class="mdi mdi-food menu-icon"></i>
-              <span class="menu-title">Platillos</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/panel/qr') }}">
-                <i class="mdi mdi-qrcode menu-icon"></i>
-              <span class="menu-title">Configuración QR</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('/panel/configuracion') }}">
-                <i class="mdi mdi-settings menu-icon"></i>
-              <span class="menu-title">Configuraciones</span>
-            </a>
-          </li>
-          <!--<li class="nav-item">
+                <li class="pt-2 pb-1">
+                    <span class="nav-item-head">Administración</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/dashboard') }}">
+                        <i class="mdi mdi-compass-outline menu-icon"></i>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/categorias') }}">
+                        <i class="mdi mdi-drawing menu-icon"></i>
+                        <span class="menu-title">Categorias</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/platillos') }}">
+                        <i class="mdi mdi-food menu-icon"></i>
+                        <span class="menu-title">Platillos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/qr') }}">
+                        <i class="mdi mdi-qrcode menu-icon"></i>
+                        <span class="menu-title">Configuración QR</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/configuracion') }}">
+                        <i class="mdi mdi-settings menu-icon"></i>
+                        <span class="menu-title">Configuraciones</span>
+                    </a>
+                </li>
+                <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               <span class="menu-title">UI Elements</span>
@@ -136,54 +139,55 @@
               <span class="menu-title">Documentation</span>
             </a>
           </li>-->
-        </ul>
-      </nav>
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_settings-panel.html -->
-        <!--<div id="settings-trigger"><i class="mdi mdi-settings"></i></div>-->
-        <div id="theme-settings" class="settings-panel">
-          <i class="settings-close mdi mdi-close"></i>
-          <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-default-theme">
-            <div class="img-ss rounded-circle bg-light border mr-3"></div>Default
-          </div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme">
-            <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
-          </div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
-            <div class="tiles default primary"></div>
-            <div class="tiles success"></div>
-            <div class="tiles warning"></div>
-            <div class="tiles danger"></div>
-            <div class="tiles info"></div>
-            <div class="tiles dark"></div>
-            <div class="tiles light"></div>
-          </div>
-        </div>
+            </ul>
+        </nav>
         <!-- partial -->
-        <!-- partial:partials/_navbar.html -->
-        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-          <div class="navbar-menu-wrapper d-flex align-items-stretch">
-            <!--<button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_settings-panel.html -->
+            <!--<div id="settings-trigger"><i class="mdi mdi-settings"></i></div>-->
+            <div id="theme-settings" class="settings-panel">
+                <i class="settings-close mdi mdi-close"></i>
+                <p class="settings-heading">SIDEBAR SKINS</p>
+                <div class="sidebar-bg-options selected" id="sidebar-default-theme">
+                    <div class="img-ss rounded-circle bg-light border mr-3"></div>Default
+                </div>
+                <div class="sidebar-bg-options" id="sidebar-dark-theme">
+                    <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
+                </div>
+                <p class="settings-heading mt-2">HEADER SKINS</p>
+                <div class="color-tiles mx-0 px-4">
+                    <div class="tiles default primary"></div>
+                    <div class="tiles success"></div>
+                    <div class="tiles warning"></div>
+                    <div class="tiles danger"></div>
+                    <div class="tiles info"></div>
+                    <div class="tiles dark"></div>
+                    <div class="tiles light"></div>
+                </div>
+            </div>
+            <!-- partial -->
+            <!-- partial:partials/_navbar.html -->
+            <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                    <!--<button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-chevron-double-left"></span>
             </button>
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
               <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../assets/images/logo-mini.svg" alt="logo" /></a>
             </div>-->
-            <ul class="navbar-nav">
-              <li class="nav-item d-none d-md-block">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                  <span class="mdi mdi-chevron-double-left"></span>
-                </button>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url('/cocina/ordenes') }}">
-                <i class="fas fa-concierge-bell"></i>
-                </a>
-              </li>
-              <!--<li class="nav-item dropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-none d-md-block">
+                            <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                                data-toggle="minimize">
+                                <span class="mdi mdi-menu"></span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/cocina/ordenes') }}">
+                                <i class="fas fa-concierge-bell"></i>
+                            </a>
+                        </li>
+                        <!--<li class="nav-item dropdown">
                 <a class="nav-link" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                   <i class="mdi mdi-email-outline"></i>
                 </a>
@@ -269,9 +273,9 @@
                   <h6 class="p-3 font-13 mb-0 text-primary text-center">View all notifications</h6>
                 </div>
               </li>-->
-            </ul>
-            <ul class="navbar-nav navbar-nav-right">
-              <!--<li class="nav-item nav-logout d-none d-md-block mr-3">
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <!--<li class="nav-item nav-logout d-none d-md-block mr-3">
                 <a class="nav-link" href="#">Status</a>
               </li>
               <li class="nav-item nav-logout d-none d-md-block">
@@ -295,35 +299,40 @@
                     <i class="flag-icon flag-icon-ru mr-3"></i>Russian </a>
                 </div>
               </li>-->
-              <li class="nav-item nav-logout d-none d-lg-block">
-                <a class="nav-link" href="index.html">
-                  <i class="mdi mdi-home-circle"></i>
-                </a>
-              </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-menu"></span>
-            </button>
-          </div>
-        </nav>
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper pb-0">
-              @if ($message = Session::get('success'))
-                <div class="alert alert-success rounded-pill alert-dismissible fade show" role="alert">
-                    {{ $message }}
-                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                        <li class="nav-item nav-logout d-none d-lg-block">
+                            <a class="nav-link" href="index.html">
+                                <i class="mdi mdi-home-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                        data-toggle="offcanvas">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
                 </div>
-            @endif
-            @if ($message = Session::get('danger'))
-                <div class="alert alert-danger rounded-pill alert-dismissible fade show" role="alert">
-                    {{ $message }}
-                    <button type="button" class="btn-close" data--dismiss="alert" aria-label="Close"></button>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper pb-0">
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success rounded-pill alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @if ($message = Session::get('danger'))
+                        <div class="alert alert-danger rounded-pill alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @yield('content')
                 </div>
-            @endif
-                @yield('content')
-            </div>
-          <!--<div class="content-wrapper pb-0">
+                <!--<div class="content-wrapper pb-0">
             <div class="page-header flex-wrap">
               <div class="header-left">
                 <button class="btn btn-primary mb-2 mb-md-0 mr-2"> Create new document </button>
@@ -890,44 +899,50 @@
               </div>
             </div>
           </div>-->
-          <!-- content-wrapper ends -->
-          <!-- partial:partials/_footer.html -->
-          <!--<footer class="footer">
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <!--<footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
               <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap dashboard templates</a> from Bootstrapdash.com</span>
             </div>
           </footer>-->
-          <!-- partial -->
+                <!-- partial -->
+            </div>
+
+            <!-- main-panel ends -->
         </div>
-        
-        <!-- main-panel ends -->
-      </div>
-      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form action="" class="deleteForm" method="post">
-                    @csrf
-                    @method("DELETE")
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="exampleModalLabel">¿Esta seguro de eliminar?</h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-success">Si</button>
-                    </div>
-                </form>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="" class="deleteForm" method="post">
+                        @csrf
+                        @method("DELETE")
+                        <div class="modal-body">
+                            <h5 class="modal-title" id="exampleModalLabel">¿Esta seguro de eliminar?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-success">Si</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-      <!-- page-body-wrapper ends -->
+        <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('css/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -950,6 +965,10 @@
     <script src="{{ asset('/js/dashboard.js') }}"></script>
 
     @yield('scripts')
+    <script>
+
+    </script>
     <!-- End custom js for this page -->
-  </body>
+</body>
+
 </html>

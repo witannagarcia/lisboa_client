@@ -5,6 +5,17 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-body p2 pb-2">
+                    <div class="row">
+                        <div class="col-12 px-3 bb-2">
+                            <h3 class="mt-0">
+                                <a href="{{ url()->previous() }}" class="text-dark text-decoration-none">
+                                    <i class="mdi mdi-arrow-left"></i>
+                                </a>
+                                Nuevo platillo
+                            </h3>
+                            <hr class="w-100">
+                        </div>
+                    </div>
                     <form method="post" action="{{ url('/panel/platillos') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">

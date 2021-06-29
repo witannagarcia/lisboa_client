@@ -33,10 +33,10 @@
                                 @forelse ($categories as $category)
                                     <tr>
                                         <th>
-                                            @if ($category->image_banner)
-                                                @if (Storage::disk('public')->exists($category->image_banner))
-                                                    <img src="{{ Storage::disk('public')->url($category->image_banner) }}"
-                                                        class="avatar avatar-sm rounded-circle me-2">
+                                            @if ($category->image_icon)
+                                                @if (Storage::disk('public')->exists($category->image_icon))
+                                                    <img src="{{ Storage::disk('public')->url($category->image_icon) }}"
+                                                        class="" style="width: 60px; height:60px;">
                                                 @endif
                                             @else
                                             
@@ -51,8 +51,8 @@
                                                 href="{{ url('/panel/categorias/' . $category->id . '/edit') }}">
                                                 Modificar
                                             </a>
-                                            <a class="btn btn-danger"
-                                                href="{{ url('/panel/categorias/' . $category->id) }}">
+                                            <a class="btn btn-danger deleteBtn"
+                                            data-id="{{ $category->id }}" data-toggle="modal" data-target="#deleteModal">
                                                 Eliminar
                                             </a>
                                         </td>
@@ -69,4 +69,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section("scripts")
+<script>
+     $(document).on('click', '.deleteBtn', function() {
+            $('.deleteForm').attr('action', "{{ url('/panel/categorias') }}/" + $(this).data(
+                'id'))
+        })
+</script>
 @endsection

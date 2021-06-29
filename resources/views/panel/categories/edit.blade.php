@@ -37,10 +37,10 @@
 								<hr>
 								@if($category->image_banner)
                                       <img src="{{ Storage::disk('public')->url($category->image_banner) }}"
-                                                            style="width:240px; height: 240px;" class="image-thumbnail banner d-block mx-auto my-3 me-2">
+                                                            style="width:240px;" class="d-block mx-auto my-3 me-2">
                                       @else
                                       <img src="https://ui-avatars.com/api/?name={{ $category->name }}"
-                                                            style="width:240px; height: 240px;" class="image-thumbnail banner d-block mx-auto my-3 me-2">
+                                                            style="width:240px;" class="d-block mx-auto my-3 me-2">
                                       @endif
 								<label for="imageBanner" class="btn btn-primary btn-block">
 									<input type="file" class="d-none" id="imageBanner" name="image_banner">

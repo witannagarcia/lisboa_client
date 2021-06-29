@@ -33,10 +33,10 @@
                                 @forelse ($categories as $category)
                                     <tr>
                                         <th>
-                                            @if ($category->image_banner)
-                                                @if (Storage::disk('public')->exists($category->image_banner))
-                                                    <img src="{{ Storage::disk('public')->url($category->image_banner) }}"
-                                                        class="avatar avatar-sm rounded-circle me-2">
+                                            @if ($category->image_icon)
+                                                @if (Storage::disk('public')->exists($category->image_icon))
+                                                    <img src="{{ Storage::disk('public')->url($category->image_icon) }}"
+                                                        class="" style="width: 60px; height:60px;">
                                                 @endif
                                             @else
                                             

@@ -890,7 +890,7 @@
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
 
     var data = {
-      labels: ["", "jan", "", "feb", "", "mar", "", "apr", "", "may", "", "nov", ""],
+      labels: ["", "Ene", "", "feb", "", "mar", "", "Abr", "", "May", "", "nov", ""],
       datasets: [{
         label: 'Custom Label Name',
         backgroundColor: gradient,

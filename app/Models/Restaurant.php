@@ -9,18 +9,8 @@ class Restaurant extends Model
 {
     use HasFactory;
 
-    public function QrSetting()
+    public function branches()
     {
-        return $this->hasOne('App\Models\QrSetting');
-    }
-
-    public function setting()
-    {
-        return $this->hasOne('App\Models\Setting');
-    }
-
-    public function categories()
-    {
-        return $this->hasMany('App\Models\Category');
+        return $this->hasMany('App\Models\Branch');
     }
 }

@@ -24,6 +24,8 @@
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Categoría
+                                    </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#
                                         Productos</th>
                                     <th></th>
@@ -36,7 +38,7 @@
                                             @if ($category->image_icon)
                                                 @if (Storage::disk('public')->exists($category->image_icon))
                                                     <img src="{{ Storage::disk('public')->url($category->image_icon) }}"
-                                                        class="" style="width: 60px; height:60px;">
+                                                        class="rounded-0" style="width: 60px; height:60px;">
                                                 @endif
                                             @else
                                             
@@ -45,6 +47,7 @@
                                             @endif
                                         </th>
                                         <td>{{ $category->name }}</td>
+                                        <td>{{ $category->parent()->exists() ? $category->parent->name:' - ' }}</td>
                                         <td>{{ $category->dishes()->count() }}</td>
                                         <td>
                                             <a class="btn btn-primary"

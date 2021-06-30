@@ -19,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->paginate(8);
+        $categories = Category::where('branch_id', session()->get('branch')->id)->paginate(8);
         return view('panel.categories.index', ["categories" => $categories]);
     }
 
@@ -30,7 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('panel.categories.create');
+        $categories = Category::where('category_id', NULL)->get();
+        return view('panel.categories.create', ["categories"=>$categories]);
     }
 
     /**
@@ -48,7 +49,8 @@ class CategoryController extends Controller
         );
 
         $category = new Category();
-        $category->restaurant_id = Auth::user()->restaurant_id;
+        $category->branch_id = session()->get('branch')->id;
+        $category->category_id = $request->category_id;
         $category->name = $request->name;
         $category->save();
 

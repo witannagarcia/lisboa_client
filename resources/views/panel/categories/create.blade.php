@@ -21,15 +21,29 @@
                         
                         <div class="row">
                             <div class="col-sm-6 col-md-4">
-                                <div class="form-group">
-                                    <label for="">Nombre</label>
-                                    <input type="text" name="name"
-                                        class="form-control form-control-lg @error('name') is-invalid @enderror">
-                                    @error('name')
-                                        <span class="invalid-feedback">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="">Nombre</label>
+                                            <input type="text" name="name"
+                                                class="form-control form-control-lg @error('name') is-invalid @enderror">
+                                            @error('name')
+                                                <span class="invalid-feedback">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="">Categoría Padre</label>
+                                            <select name="category_id" id="" class="form-control">
+                                                @foreach ($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>                                                    
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-4">

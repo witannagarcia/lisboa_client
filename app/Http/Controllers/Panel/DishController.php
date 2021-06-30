@@ -17,13 +17,13 @@ class DishController extends Controller
 {
     public function index()
     {
-        $dishes = Dish::where('restaurant_id', env('RESTAURANT_ID'))->paginate(8);
+        $dishes = Dish::where('branch_id', session()->get('branch')->id)->paginate(8);
         return view('panel.dishes.index', ["dishes" => $dishes]);
     }
 
     public function create()
     {
-        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->get();
+        $categories = Category::where('branch_id', session()->get('branch')->id)->get();
         return view('panel.dishes.create', ["categories" => $categories]);
     }
 
@@ -39,7 +39,7 @@ class DishController extends Controller
         ]);
 
         $dish = new Dish();
-        $dish->restaurant_id = Auth::user()->restaurant_id;
+        $dish->branch_id = session()->get('branch')->id;
         $dish->name = $request->name;
         $dish->category_id = $request->category_id;
         $dish->preparation_time = $request->preparation_time;
@@ -74,7 +74,7 @@ class DishController extends Controller
     public function edit($id)
     {
         $dish = Dish::find($id);
-        $categories = Category::where('restaurant_id', env('RESTAURANT_ID', '1'))->get();
+        $categories = Category::where('branch_id', session()->get('branch')->id)->get();
         return view('panel.dishes.edit', ["dish" => $dish, "categories" => $categories]);
     }
 

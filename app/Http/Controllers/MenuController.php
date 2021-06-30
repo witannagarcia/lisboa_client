@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use App\Models\Dish;
+use App\Models\Branch;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,11 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($hash)
+    public function index(Request $request)
     {
-        $restaurant = Restaurant::find($hash);
-        return view('menu.index', ["restaurant"=>$restaurant]);
+        $branch = Branch::find($request->query('branch_id'));
+        $restaurant = Restaurant::find($branch->restaurant_id);
+        return view('menu.index', ["restaurant"=>$restaurant, "branch"=>$branch]);
     }
 
     public function category($id)

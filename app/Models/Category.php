@@ -15,4 +15,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Dish');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+    }
 }

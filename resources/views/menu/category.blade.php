@@ -3,7 +3,7 @@
 @section('content')
 <div class="bar d-flex justify-content-between py-2">
     <div >
-        <a href="{{ url('/menu/'.$restaurant->id) }}" class="h4 text-white text-decoration-none">
+        <a href="{{ url('/menu') }}" class="h4 text-white text-decoration-none">
             <i class="mdi mdi-chevron-left h5"></i> <span class="h5">Atras</span>
         </a>
     </div>

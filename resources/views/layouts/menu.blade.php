@@ -12,7 +12,7 @@
 </head>
 <body>
     <div id="loading">
-        <img src="{{ Storage::disk('public')->url($restaurant->setting->logo) }}" alt="">
+        <img src="{{ Storage::disk('public')->url($branch->setting->logo) }}" alt="">
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
     <div class="container">
@@ -24,27 +24,27 @@
               <span class="icon-bar" id="thr"></span>
             </div>
           </div>
-          @if($restaurant->setting->address)
+          @if($branch->setting->address)
           <div id="btnExit" class="hamburger-nav">
             <span class="floatingmenu_label">Ubicación</span>
-            <a class="text-white" target="_blank" href="http://maps.google.com/?q={{$restaurant->setting->address}}">
+            <a class="text-white" target="_blank" href="http://maps.google.com/?q={{$branch->setting->address}}">
                 <span class="mdi mdi-map"></span>
             </a>
           </div>
           @endif
-          @if($restaurant->setting->website)
+          @if($branch->setting->website)
           <div id="btnUsers" class="hamburger-nav">
             <span class="floatingmenu_label">Sitio Web</span>
-            <a class="text-white" target="_blank" href="{{$restaurant->setting->website}}">
+            <a class="text-white" target="_blank" href="{{$branch->setting->website}}">
             <span class="mdi mdi-web"></span>
             </a>
              <!--<img style="width: 24px; height: 24px;" src="https://www.iconfinder.com/data/icons/small-n-flat/24/pencil-128.png">-->
           </div>
           @endif
-          @if($restaurant->setting->phone)
+          @if($branch->setting->phone)
           <div id="btnJobs" class="hamburger-nav">
             <div class="floatingmenu_label">Teléfono</div>
-            <a class="text-white" target="_blank" href="{{$restaurant->setting->website}}">
+            <a class="text-white" target="_blank" href="{{$branch->setting->website}}">
             <span class="mdi mdi-phone"></span>
             </a>
              <!--<img style="width: 24px; height: 24px;" src="https://www.iconfinder.com/data/icons/small-n-flat/24/pencil-128.png">-->

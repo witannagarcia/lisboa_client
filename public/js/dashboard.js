@@ -890,14 +890,14 @@
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
 
     var data = {
-      labels: ["", "Ene", "", "feb", "", "mar", "", "Abr", "", "May", "", "nov", ""],
+      labels: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
       datasets: [{
-        label: 'Custom Label Name',
+        label: 'Venta del día',
         backgroundColor: gradient,
         pointBackgroundColor: 'white',
         borderWidth: 1,
         borderColor: '#00d284',
-        data: [15, 16, 15, 14, 13, 12, 13, 14, 16, 15, 16, 17, 18],
+        data: [15, 16, 15, 14, 13, 12, 13,],
       }]
     };
 

@@ -2,6 +2,20 @@
 
 @section('content')
 <h3 class="text-center text-white poppins">{{ $restaurant->name }}</h3>
+<div class="row mb-2">
+    @if(!is_null($table))
+    <div class="col-6">
+        Mesa: 
+    </div>
+    <div class="col-6 text-white text-right">
+        Sucursal: {{$branch->name}}
+    </div>
+    @else
+    <div class="col-12 text-white text-center">
+        Sucursal: {{$branch->name}}
+    </div>
+    @endif
+</div>
     <div class="row">
         <div class="col-12">
             <img src="{{ asset('images/menu_banner_1.jpeg')}}" class="w-100" alt="">
@@ -9,7 +23,7 @@
     </div>
     <h3 class="text-center text-white poppins">Menú</h3>
     <div class="row">        
-            @foreach($restaurant->categories as $category)
+            @foreach($branch->categories as $category)
                 <div class="col-6 categoryBox rounded my-2">
                     <a href="{{ url('/menu/categoria/'.$category->id) }}">
                         <img src="{{ Storage::disk('public')->url($category->image_banner) }}" class="mw-100" alt="">

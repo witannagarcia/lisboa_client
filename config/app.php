@@ -175,7 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        Kreait\Laravel\Firebase\ServiceProvider::class
+        Kreait\Laravel\Firebase\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -229,7 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

@@ -14,7 +14,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::where('restaurant_id', env('RESTAURANT_ID'))->first();
+        $settings = Setting::where('branch_id', session()->get('branch')->id)->first();
         return view('panel.settings.index', ["settings" => $settings]);
     }
 

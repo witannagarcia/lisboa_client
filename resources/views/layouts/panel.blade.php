@@ -14,6 +14,7 @@
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('css/vendors/jquery-bar-rating/css-stars.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tata.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/vendors/font-awesome/css/font-awesome.min.css') }}" />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -57,20 +58,55 @@
             </form>
           </li>-->
                 <li class="pt-2 pb-1">
-                    <span class="nav-item-head">Administración</span>
+                    <span class="nav-item-head">Generales</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/panel/dashboard') }}">
-                        <i class="mdi mdi-compass-outline menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
+                    <a class="nav-link" href="{{ url('/panel/sucursales') }}">
+                        <i class="mdi mdi-file-tree menu-icon"></i>
+                        <span class="menu-title">Sucursales</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/panel/configuracion') }}">
+                        <i class="mdi mdi-settings menu-icon"></i>
+                        <span class="menu-title">Configuraciones</span>
+                    </a>
+                </li>
+                <li class="pt-2 pb-1">
+                    <span class="nav-item-head">Catálogos de sucursal</span>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url('/panel/dashboard') }}">
+                      <i class="mdi mdi-compass-outline menu-icon"></i>
+                      <span class="menu-title">Dashboard</span>
+                  </a>
+              </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/categorias') }}">
                         <i class="mdi mdi-drawing menu-icon"></i>
-                        <span class="menu-title">Categorias</span>
+                        <span class="menu-title">Categorías</span>
                     </a>
                 </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                    <span class="menu-title">UI Elements</span>
+                    <i class="menu-arrow"></i>
+                  </a>
+                  <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                      <li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/platillos') }}">
                         <i class="mdi mdi-food menu-icon"></i>
@@ -80,15 +116,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/qr') }}">
                         <i class="mdi mdi-qrcode menu-icon"></i>
-                        <span class="menu-title">Configuración QR</span>
+                        <span class="menu-title">Configuración de menu</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/panel/configuracion') }}">
-                        <i class="mdi mdi-settings menu-icon"></i>
-                        <span class="menu-title">Configuraciones</span>
-                    </a>
-                </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link" href="{{ url('/panel/mesas') }}">
+                      <i class="mdi mdi-grid menu-icon"></i>
+                      <span class="menu-title">Configuración de Mesas</span>
+                  </a>
+              </li>-->
                 <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -182,10 +218,43 @@
                                 <span class="mdi mdi-menu"></span>
                             </button>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/cocina/ordenes') }}">
-                                <i class="fas fa-concierge-bell"></i>
-                            </a>
+                        <li class="nav-item d-flex justify-content-around align-items-center">
+                            <div id="dd" class="wrapper-dropdown-1" tabindex="1">
+                                @if (session()->exists('branch'))
+                                    <span>Sucursal: {{ session()->get('branch')->name }}</span>
+                                @else
+                                    <span>Sucursal: Ninguna</span>
+                                @endif
+                                <ul class="dropdown">
+                                    @foreach (Auth::user()->restaurant->branches as $branchG)
+                                        <li><a
+                                                href="{{ url('/panel/cambiar-sucursal/' . $branchG->id) }}">{{ $branchG->name }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <!--<div class="select-box">
+                                <div class="select-box__current" tabindex="1">
+                                    @foreach (Auth::user()->restaurant->branches as $key => $branchG)
+                                        <div class="select-box__value">
+                                            <input class="select-box__input" type="radio" id="{{ $key }}"
+                                                value="{{ $branchG->id }}" name="{{ $branchG->name }}"
+                                                checked="checked" />
+                                            <p class="select-box__input-text">{{ $branchG->name }}</p>
+                                        </div>
+                                        @endforeach<img class="select-box__icon"
+                                            src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon"
+                                            aria-hidden="true" />
+                                </div>
+                                <ul class="select-box__list">
+                                    @foreach (Auth::user()->restaurant->branches as $key => $branchG)
+                                        <li>
+                                            <label class="select-box__option" for="{{ $key }}"
+                                                aria-hidden="aria-hidden">{{ $branchG->name }}</label>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>-->
                         </li>
                         <!--<li class="nav-item dropdown">
                 <a class="nav-link" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -275,34 +344,36 @@
               </li>-->
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
-                        <!--<li class="nav-item nav-logout d-none d-md-block mr-3">
-                <a class="nav-link" href="#">Status</a>
-              </li>
-              <li class="nav-item nav-logout d-none d-md-block">
-                <button class="btn btn-sm btn-danger">Trailing</button>
-              </li>
-              <li class="nav-item nav-profile dropdown d-none d-md-block">
-                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                  <div class="nav-profile-text">English </div>
-                </a>
-                <div class="dropdown-menu center navbar-dropdown" aria-labelledby="profileDropdown">
-                  <a class="dropdown-item" href="#">
-                    <i class="flag-icon flag-icon-bl mr-3"></i> French </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <i class="flag-icon flag-icon-cn mr-3"></i> Chinese </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <i class="flag-icon flag-icon-de mr-3"></i> German </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                    <i class="flag-icon flag-icon-ru mr-3"></i>Russian </a>
-                </div>
-              </li>-->
-                        <li class="nav-item nav-logout d-none d-lg-block">
-                            <a class="nav-link" href="index.html">
-                                <i class="mdi mdi-home-circle"></i>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/cocina/ordenes') }}">
+                                <i class="fas fa-concierge-bell"></i>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-default text-white dropdown-toggle" type="button"
+                                    id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="mdi mdi-account"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        <a href="{{ url('/panel/auth/logout') }}"><i
+                                                class="mdi mdi-logout mr-2"></i>Salir</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <!-- Link or button to toggle dropdown -->
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a tabindex="-1" href="#">Action</a></li>
+                                    <li><a tabindex="-1" href="#">Another action</a></li>
+                                    <li><a tabindex="-1" href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a tabindex="-1" href="#">Separated link</a></li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -930,6 +1001,54 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="deleteAjaxModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 class="modal-title" id="exampleModalLabel">¿Esta seguro de eliminar?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-success acceptAjaxDelete">
+                              <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                              <span class="text">Si</span>
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="brachSelectModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+            role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Seleccionar sucursal</h5>
+                    </div>
+                    <div class="modal-body">
+                        @if (Auth::user()->restaurant->branches->count() > 0)
+                            <p>Selecciona un sucursal para poder configurar los catálogos del sistema.</p>
+                            <div class="form-group">
+                                <select name="branchD" id="" class="form-control">
+                                    <option value="">Seleccionar sucursal</option>
+                                    @foreach (Auth::user()->restaurant->branches as $branchD)
+                                        <option value="{{ $branchD->id }}">{{ $branchD->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <p class="text-center">Aun no has registrado sucursales.</p>
+                            <p class="text-center">
+                                <a href="{{ url('/panel/sucursales/create') }}" class="btn btn-primary">Nueva
+                                    sucursal</a>
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
@@ -960,13 +1079,55 @@
     <script src="{{ asset('/js/misc.js') }}"></script>
     <script src="{{ asset('/js/settings.js') }}"></script>
     <script src="{{ asset('/js/todolist.js') }}"></script>
+    <script src="{{ asset('js/tata.js') }}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="{{ asset('/js/dashboard.js') }}"></script>
 
     @yield('scripts')
     <script>
+      let urlDelete = '';
+        $(document).on('click', '#dd', function() {
+            $(this).addClass('active');
+            return false;
+        })
 
+        $(document).on('click', '#dd a', function() {
+            window.location.href = $(this).attr('href')
+        })
+
+        function DropDown(el) {
+            this.dd = el;
+            this.placeholder = this.dd.children('span');
+            this.opts = this.dd.find('ul.dropdown > li');
+            this.val = '';
+            this.index = -1;
+            this.initEvents();
+        }
+        DropDown.prototype = {
+            initEvents: function() {
+                var obj = this;
+            }
+        }
+
+        $(document).ready(function() {
+
+            @if (!session()->exists('branch') && \Request::getRequestUri() !== '/panel/sucursales/create')
+                $('#brachSelectModal').modal()
+            @endif
+
+            var dd = new DropDown($('#dd'));
+
+            $(document).click(function() {
+                // all dropdowns
+                $('.wrapper-dropdown-1').removeClass('active');
+            });
+
+            $(document).on('change', 'select[name="branchD"]', function() {
+                window.location.href = "{{ url('/panel/cambiar-sucursal') }}/" + $(this)
+                    .val()
+            })
+        })
     </script>
     <!-- End custom js for this page -->
 </body>

@@ -51,6 +51,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
+                                <div class="form-group position-relative">
+                                    <label for="">Subcategoría</label>
+                                    <select name="subcategory_id" class="form-control form-control-lg">
+                                        <option value="">Seleccionar opción</option>
+                                    </select>
+                                    <div class="spinner-border position-absolute invisible" style="top: 30px; left: 40%;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="">Tiempo de preparación (minutos)</label>
                                     <input type="text" name="preparation_time" class="form-control form-control-lg number">
@@ -61,7 +72,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-8">
                                 <div class="form-group">
                                     <label for="">Descripción corta</label>
                                     <input type="text" name="preview" class="form-control form-control-lg">
@@ -171,6 +182,30 @@
         }
 
         document.querySelector('#my-file').addEventListener("change", previewImages);
+
+        $(document).on('change', 'select[name="category_id"]', function(){
+            let catId = $('select[name="category_id"] option:selected').val();
+
+            if(catId == ""){
+                $('select[name="subcategory_id"]').find('option').not(':first').remove();
+                return false;
+            }
+            $('select[name="subcategory_id"]').closest('div').find('.spinner-border').toggleClass('invisible');
+
+            $.ajax({
+                url: "{{ url('/panel/categorias') }}/"+catId,
+                type:"GET",
+                dataType:"json",
+                success: function(data){
+                    $('select[name="subcategory_id"]').closest('div').find('.spinner-border').toggleClass('invisible');
+                    $('select[name="subcategory_id"]').find('option').not(':first').remove();
+                    data.data.map((item)=>{
+                        $('select[name="subcategory_id"]').append(`<option value="${item.id}">${item.name}</option>`);
+                    })
+                },
+                error: function(err){console.log(err)}
+            })
+        })
 
     </script>
 @endsection

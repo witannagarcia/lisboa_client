@@ -56,6 +56,23 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
+                                    <label for="">Subcategoría</label>
+                                    <select name="subcategory_id" class="form-control form-control-lg">
+                                        <option value="">Seleccionar opción</option>
+                                        @if ($dish->category->nodes()->exists())
+                                            @foreach ($dish->category->nodes as $node)
+                                                <option value="{{ $node->id }}">{{ $node->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <div class="spinner-border position-absolute invisible" style="top: 30px; left: 40%;"
+                                        role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
                                     <label for="">Tiempo de preparación (minutos)</label>
                                     <input type="text" name="preparation_time" value="{{ $dish->preparation_time }}"
                                         class="form-control form-control-lg number">
@@ -66,7 +83,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-8">
                                 <div class="form-group">
                                     <label for="">Descripción corta</label>
                                     <input type="text" name="preview" value="{{ $dish->preview }}"
@@ -121,7 +138,8 @@
                                 <hr>
                                 <div class="input-file-container">
                                     <label tabindex="0" for="my-file" class="btn btn-primary">
-                                        <input type="file" name="files[]" class="input-file d-none" id="my-file" multiple />Seleccionar imagenes</label>
+                                        <input type="file" name="files[]" class="input-file d-none" id="my-file"
+                                            multiple />Seleccionar imagenes</label>
                                 </div>
                                 <div id="preview"></div>
                                 <div id="gallery" class="mt-2">
@@ -129,13 +147,15 @@
                                     <hr>
                                     <div class="w-100">
                                         @foreach ($dish->images as $image)
-                                        <div class="image float-left mr-3">
-                                            <a class="btn btn-icons deleteBtn btn-danger btn-rounded" data-toggle="modal" data-target="#deleteModal" data-id="{{ $image->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                            <img src="{{ Storage::disk('public')->url($image->url)}}" alt="">
-                                        </div>
-                                    @endforeach
+                                            <div class="image float-left mb-3 mr-3">
+                                                <a class="btn btn-icons deleteBtn btn-danger btn-rounded"
+                                                    data-toggle="modal" data-target="#deleteAjaxModal"
+                                                    data-id="{{ $image->id }}">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <img src="{{ Storage::disk('public')->url($image->url) }}" alt="">
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -161,6 +181,7 @@
 
 @section('scripts')
     <script>
+        let imageToDelete = null;
         function previewImages() {
 
             var preview = document.querySelector('#preview');
@@ -194,10 +215,67 @@
 
         document.querySelector('#my-file').addEventListener("change", previewImages);
 
-        $(document).on('click', '.deleteBtn', function() {
-            $('.deleteForm').attr('action', "{{ url('/panel/platillos/' . $dish->id . '/imagenes/') }}/" + $(this).data(
-                'id'))
+        $(document).on('change', 'select[name="category_id"]', function() {
+            let catId = $('select[name="category_id"] option:selected').val();
+
+            if (catId == "") {
+                $('select[name="subcategory_id"]').find('option').not(':first').remove();
+                return false;
+            }
+
+            $('select[name="subcategory_id"]').closest('div').find('.spinner-border').toggleClass('invisible');
+
+            $.ajax({
+                url: "{{ url('/panel/categorias') }}/" + catId,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $('select[name="subcategory_id"]').closest('div').find('.spinner-border')
+                        .toggleClass('invisible');
+                    $('select[name="subcategory_id"]').find('option').not(':first').remove();
+                    data.data.map((item) => {
+                        $('select[name="subcategory_id"]').append(
+                            `<option value="${item.id}">${item.name}</option>`);
+                    })
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
         })
 
+        $(document).on('click', '.deleteBtn', function() {
+            imageToDelete = $(this).closest('.image');
+            let url = `panel/platillos/{{ $dish->id}}/imagenes/${$(this).data('id')}`
+            urlDelete = `{{ url('${url}') }}`;
+        })
+
+        $(document).on('click', '.acceptAjaxDelete', function(){
+            $('.acceptAjaxDelete span').toggleClass('d-none')
+
+            
+
+            $.ajax({
+                url: urlDelete,
+                type: "POST",
+                dataType: "json",
+                data:{
+                    _token: "{{ csrf_token() }}",
+                    _method: "DELETE",
+                },
+                success:function(data){
+                    console.log(imageToDelete)
+                    $('.acceptAjaxDelete span').toggleClass('d-none')
+                    imageToDelete.remove();
+                    $('#deleteAjaxModal').modal('hide')
+                    $(".modal-backdrop").remove();
+                    tata.success('Éxito', data.msg)
+                },
+                error:function(err){
+                    console.log(err)
+                }
+
+            })
+        })
     </script>
 @endsection

@@ -13,7 +13,7 @@ class Branch extends Model
 
     public function categories()
     {
-        return $this->hasMany('App\Models\Category')->orderBy('order','ASC');
+        return $this->hasMany('App\Models\Category')->where('category_id', NULL)->orderBy('order','ASC');
     }
 
     public function QrSetting()

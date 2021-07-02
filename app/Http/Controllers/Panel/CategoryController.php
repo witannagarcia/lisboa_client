@@ -54,16 +54,6 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        /*$path = public_path() . "/images/categories";
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $pathDish = public_path() . "/images/categories/" . $category->id;
-        if (!file_exists($pathDish)) {
-            mkdir($pathDish, 0777, true);
-        }*/
-
         if ($request->hasFile('image_banner')) {
             $image = $request->image_banner;
             $imageName = 'image_banner.' . $image->getClientOriginalExtension();
@@ -92,7 +82,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        return response()->json(["msg"=>"", "data"=>$category->nodes], 200);
     }
 
     /**
@@ -104,7 +95,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        return view('panel.categories.edit', ["category" => $category]);
+        $categories = Category::where('category_id', NULL)->get();
+        return view('panel.categories.edit', ["category" => $category, "categories" => $categories]);
     }
 
     /**

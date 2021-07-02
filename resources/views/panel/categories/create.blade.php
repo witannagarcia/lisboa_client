@@ -50,7 +50,7 @@
                                 <h5>Imagen banner</h5>
                                 <hr>
                                 <img src="https://ui-avatars.com/api/?name="
-                                    style="width:240px; height: 240px;"
+                                    style="width:240px; min-height: 240px;"
                                     class="image-thumbnail banner d-block mx-auto my-3 me-2">
                                 <label for="imageBanner" class="btn btn-primary btn-block">
                                     <input type="file" class="d-none" id="imageBanner" name="image_banner">

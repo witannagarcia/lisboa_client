@@ -20,4 +20,9 @@ class Category extends Model
     {
         return $this->belongsTo('App\Models\Category', 'category_id', 'id');
     }
+
+    public function nodes()
+    {
+        return $this->hasMany('App\Models\Category');
+    }
 }

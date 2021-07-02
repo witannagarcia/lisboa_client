@@ -53,6 +53,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
     Route::resource('/platillos/{dish_id}/imagenes', Controllers\Panel\DishImageController::class);
     Route::resource('/categorias', Controllers\Panel\CategoryController::class);
     Route::resource('/sucursales', Controllers\Panel\BranchController::class);
+    Route::resource('/mesas', Controllers\Panel\TableController::class);
 });
 
 Route::prefix('cocina')->middleware('auth')->group(function(){

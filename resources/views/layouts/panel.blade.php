@@ -76,11 +76,11 @@
                     <span class="nav-item-head">Catálogos de sucursal</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/panel/dashboard') }}">
-                        <i class="mdi mdi-compass-outline menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
+                  <a class="nav-link" href="{{ url('/panel/dashboard') }}">
+                      <i class="mdi mdi-compass-outline menu-icon"></i>
+                      <span class="menu-title">Dashboard</span>
+                  </a>
+              </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/categorias') }}">
                         <i class="mdi mdi-drawing menu-icon"></i>
@@ -119,6 +119,12 @@
                         <span class="menu-title">Configuración de menu</span>
                     </a>
                 </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link" href="{{ url('/panel/mesas') }}">
+                      <i class="mdi mdi-grid menu-icon"></i>
+                      <span class="menu-title">Configuración de Mesas</span>
+                  </a>
+              </li>-->
                 <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -995,6 +1001,25 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="deleteAjaxModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 class="modal-title" id="exampleModalLabel">¿Esta seguro de eliminar?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-success acceptAjaxDelete">
+                              <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                              <span class="text">Si</span>
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="brachSelectModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1061,6 +1086,7 @@
 
     @yield('scripts')
     <script>
+      let urlDelete = '';
         $(document).on('click', '#dd', function() {
             $(this).addClass('active');
             return false;
@@ -1098,7 +1124,7 @@
             });
 
             $(document).on('change', 'select[name="branchD"]', function() {
-                window.location.href = "{{ env('APP_URL') . '/panel/cambiar-sucursal' }}/" + $(this)
+                window.location.href = "{{ url('/panel/cambiar-sucursal') }}/" + $(this)
                     .val()
             })
         })

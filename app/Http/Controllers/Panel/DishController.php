@@ -23,7 +23,7 @@ class DishController extends Controller
 
     public function create()
     {
-        $categories = Category::where('branch_id', session()->get('branch')->id)->get();
+        $categories = Category::where(['branch_id'=>session()->get('branch')->id, "category_id"=>NULL])->get();
         return view('panel.dishes.create', ["categories" => $categories]);
     }
 
@@ -41,7 +41,7 @@ class DishController extends Controller
         $dish = new Dish();
         $dish->branch_id = session()->get('branch')->id;
         $dish->name = $request->name;
-        $dish->category_id = $request->category_id;
+        $dish->category_id = $request->subcategory_id ? $request->subcategory_id:$request->category_id;
         $dish->preparation_time = $request->preparation_time;
         $dish->preview = $request->preview;
         $dish->description = $request->description;
@@ -74,7 +74,7 @@ class DishController extends Controller
     public function edit($id)
     {
         $dish = Dish::find($id);
-        $categories = Category::where('branch_id', session()->get('branch')->id)->get();
+        $categories = Category::where(['branch_id'=>session()->get('branch')->id, "category_id"=>NULL])->get();
         return view('panel.dishes.edit', ["dish" => $dish, "categories" => $categories]);
     }
 
@@ -91,7 +91,7 @@ class DishController extends Controller
 
         $dish = Dish::find($id);
         $dish->name = $request->name;
-        $dish->category_id = $request->category_id;
+        $dish->category_id = $request->subcategory_id ? $request->subcategory_id:$request->category_id;
         $dish->preparation_time = $request->preparation_time;
         $dish->preview = $request->preview;
         $dish->description = $request->description;

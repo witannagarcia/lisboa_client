@@ -10840,6 +10840,10 @@ textarea.form-control-lg {
   font-family: "Poppins", sans-serif;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .b-primary {
   border: 1px solid var(--primary);
 }

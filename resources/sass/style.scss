@@ -136,7 +136,7 @@
     /* Overwrites previous font-weight: bold; */
 
     /* Hiding */
-    opacity: 0;
+    display: none;
 
     li {
       a {
@@ -155,7 +155,7 @@
 
   &.active {
     .dropdown {
-      opacity: 1;
+      display: block;
       -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
       -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;

@@ -19,21 +19,22 @@ class MenuController extends Controller
     {
         $branch = Branch::find($request->query('branch_id'));
         $restaurant = Restaurant::find($branch->restaurant_id);
-        return view('menu.index', ["restaurant"=>$restaurant, "branch"=>$branch]);
+        $table = NULL;
+        return view('menu.index', ["restaurant"=>$restaurant, "branch"=>$branch, "table"=>$table]);
     }
 
     public function category($id)
     {
         $category = Category::find($id);
-        $restaurant = Restaurant::find($category->restaurant_id);
-        return view('menu.category', ["category"=>$category, "restaurant"=>$restaurant]);
+        $branch = Branch::find($category->branch_id);
+        return view('menu.category', ["category"=>$category, "branch"=>$branch]);
     }
 
     public function dish($id)
     {
         $dish = Dish::find($id);
-        $restaurant = Restaurant::find($dish->category->restaurant_id);
+        $branch = Branch::find($dish->category->branch_id);
         $similars = Dish::where('category_id', $dish->category_id)->where('id', '!=', $id)->limit(5)->get();
-        return view('menu.dish', ["restaurant"=>$restaurant, "dish"=>$dish, 'similars'=>$similars]);
+        return view('menu.dish', ["branch"=>$branch, "dish"=>$dish, 'similars'=>$similars]);
     }
 }

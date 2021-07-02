@@ -126,7 +126,7 @@
   font-weight: normal;
   /* Overwrites previous font-weight: bold; */
   /* Hiding */
-  opacity: 0;
+  display: none;
 }
 .wrapper-dropdown-1 .dropdown li a {
   display: block;
@@ -139,7 +139,7 @@
   color: #fff;
 }
 .wrapper-dropdown-1.active .dropdown {
-  opacity: 1;
+  display: block;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 .wrapper-dropdown-1.active:before, .wrapper-dropdown-1.active:after {

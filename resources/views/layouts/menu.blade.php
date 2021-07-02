@@ -44,7 +44,7 @@
           @if($branch->setting->phone)
           <div id="btnJobs" class="hamburger-nav">
             <div class="floatingmenu_label">Teléfono</div>
-            <a class="text-white" target="_blank" href="{{$branch->setting->website}}">
+            <a class="text-white" target="_blank" href="{{$branch->setting->phone}}">
             <span class="mdi mdi-phone"></span>
             </a>
              <!--<img style="width: 24px; height: 24px;" src="https://www.iconfinder.com/data/icons/small-n-flat/24/pencil-128.png">-->

@@ -21,12 +21,12 @@ class SettingController extends Controller
     public function update(Request $request)
     {
 
-        $set = Setting::where('restaurant_id', Auth::user()->restaurant_id)->first();
+        $set = Setting::where('branch_id', session()->get('branch')->id)->first();
 
         if ($request->hasFile('logo_setting')) {
 
             if ($set->logo !== NULL) {
-                $name = last(explode("/", Auth::user()->restaurant->setting->logo));
+                $name = last(explode("/", $set->logo));
             }
             $image = $request->logo_setting;
             $imageName = 'logo_' . Str::random(12) . '.' . $image->getClientOriginalExtension();

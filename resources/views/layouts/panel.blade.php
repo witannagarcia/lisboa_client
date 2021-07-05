@@ -119,12 +119,12 @@
                         <span class="menu-title">Configuración de menu</span>
                     </a>
                 </li>
-                <!--<li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link" href="{{ url('/panel/mesas') }}">
                       <i class="mdi mdi-grid menu-icon"></i>
                       <span class="menu-title">Configuración de Mesas</span>
                   </a>
-              </li>-->
+              </li>
                 <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>

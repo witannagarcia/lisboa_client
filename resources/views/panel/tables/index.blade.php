@@ -8,24 +8,50 @@
                 <div class="card-body h-100 p2 pb-2">
                     <div class="row h-100">
                         <div class="col-12">
-                            <h5>Tablas</h5>
+                            <h5>Configuración de mesas</h5>
                             <hr>
+                            <!--<div class="row">
+                                                        <div class="col-sm-2 col-sm-offset-3 form-group">
+                                                            <label>Width (px)</label>
+                                                            <input type="number" id="width" class="form-control" value="302" />
+                                                        </div>
+                                                        <div class="col-sm-2 form-group">
+                                                            <label>Height (px)</label>
+                                                            <input type="number" id="height" class="form-control" value="812" />
+                                                        </div>
+                                                        <div class="col-sm-2 form-group">
+                                                            <label>&nbsp;</label>
+                                                            <br />
+                                                            <button class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </div>-->
                             <div class="row">
-                                <div class="col-sm-2 col-sm-offset-3 form-group">
-                                  <label>Width (px)</label>
-                                  <input type="number" id="width" class="form-control" value="302" />
+                                <div class="btn-group mb-3">
+                                    <button class="btn btn-primary rectangle">+ &#9647; Mesa</button>
+                                    <button class="btn btn-primary circle">+ &#9711; Mesa</button>
+                                    <button class="btn btn-primary triangle">+ &#9651; Mesa</button>
+                                    <button class="btn btn-primary chair">+ Silla</button>
+                                    <button class="btn btn-primary bar">+ Bar / Barra</button>
+                                    <button class="btn btn-default wall">+ Muro</button>
+                                    <button class="btn btn-danger remove">Eliminar</button>
+                                    <!--<button class="btn btn-warning customer-mode">Customer mode</button>-->
                                 </div>
-                                <div class="col-sm-2 form-group">
-                                  <label>Height (px)</label>
-                                  <input type="number" id="height" class="form-control" value="812" />
+                                <div class="form-group customer-menu" style="display: none;">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success submit">Submit reservation</button>
+                                        <button class="btn btn-warning admin-mode">Admin mode</button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div id="slider"></div>
+                                    <div id="slider-value"></div>
                                 </div>
-                                <div class="col-sm-2 form-group">
-                                  <label>&nbsp;</label>
-                                  <br />
-                                  <button class="btn btn-primary">Save</button>
-                                </div>
-                              </div>
-                            <canvas id="canvas" class="w-100"></canvas>
+                                <canvas id="canvas" class="w-100 h-100"></canvas>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="btn btn-primary getObjects">Guardar configuración</div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -39,7 +65,7 @@
     <script>
         let canvas
         let number
-        const grid = 30
+        const grid = 25
         const backgroundColor = '#f8f8f8'
         const lineStroke = '#ebebeb'
         const tableFill = 'rgba(150, 111, 51, 0.7)'
@@ -56,6 +82,9 @@
         const wallStroke = '#686868'
         const wallShadow = 'rgba(0, 0, 0, 0.4) 5px 5px 20px'
 
+        const parentWidth = $('canvas').closest('.row').width()
+        const parentHeight = $(window).height() - 350;
+
         var photoUrlLandscape = 'https://images8.alphacoders.com/292/292379.jpg',
             photoUrlPortrait =
             'https://presspack.rte.ie/wp-content/blogs.dir/2/files/2015/04/AMC_TWD_Maggie_Portraits_4817_V1.jpg'
@@ -68,17 +97,19 @@
                 canvas.dispose()
             }
 
-            canvas = new fabric.Canvas('canvas')
+            canvas = new fabric.Canvas('canvas', {
+                backgroundColor: 'rgb(190,100,200)',
+                width: parentWidth,
+                height: parentHeight
+            })
             number = 1
             canvas.backgroundColor = backgroundColor
-            /*canvas.setBackgroundImage(
-                'https://presspack.rte.ie/wp-content/blogs.dir/2/files/2015/04/AMC_TWD_Maggie_Portraits_4817_V1.jpg',
-                canvas.renderAll.bind(canvas));*/
-                console.log(canvas)
+            canvas.setBackgroundImage(
+                'https://img.freepik.com/free-photo/tile-wall-background_63047-967.jpg?size=626&ext=jpg',
+                canvas.renderAll.bind(canvas));
 
-
-            for (let i = 0; i < (canvas.height / grid); i++) {
-                const lineX = new fabric.Line([0, i * grid, canvas.height, i * grid], {
+            for (let i = 0; i < (canvas.height / (grid * .6)); i++) {
+                const lineX = new fabric.Line([0, i * grid, canvas.height * 2, i * grid], {
                     stroke: lineStroke,
                     selectable: false,
                     type: 'line'
@@ -96,6 +127,10 @@
             canvas.on('object:moving', function(e) {
                 snapToGrid(e.target)
             })
+
+            canvas.on('object:selected', function(e) {
+                console.log(e)
+            });
 
             canvas.on('object:scaling', function(e) {
                 if (e.target.scaleX > 5) {
@@ -116,6 +151,7 @@
             })
 
             canvas.on('object:modified', function(e) {
+                console.log(e)
                 e.target.scaleX = e.target.scaleX >= 0.25 ? (Math.round(e.target.scaleX * 2) / 2) : 0.5
                 e.target.scaleY = e.target.scaleY >= 0.25 ? (Math.round(e.target.scaleY * 2) / 2) : 0.5
                 snapToGrid(e.target)
@@ -127,7 +163,7 @@
                 sendLinesToBack()
             })
 
-            /*canvas.observe('object:moving', function(e) {
+            canvas.observe('object:moving', function(e) {
                 checkBoudningBox(e)
             })
             canvas.observe('object:rotating', function(e) {
@@ -135,22 +171,30 @@
             })
             canvas.observe('object:scaling', function(e) {
                 checkBoudningBox(e)
-            })*/
+            })
+
         }
+
         initCanvas()
 
         function resizeCanvas() {
-            widthEl = document.getElementById('width')
-            heightEl = document.getElementById('height')
-            //canvasEl.width = widthEl.value ? widthEl.value : 3
-            //canvasEl.height = heightEl.value ? heightEl.value : 812
+            canvasEl.width = $('.main-panel').width();
+            canvasEl.height = canvasEl.height / 2
             const canvasContainerEl = document.querySelectorAll('.canvas-container')[0]
-           // canvasContainerEl.style.width = canvasEl.width
-            //canvasContainerEl.style.height = canvasEl.height
+            canvasContainerEl.style.width = $('.main-panel').width();
+            canvasContainerEl.style.height = canvasEl.height
+            /*widthEl = document.getElementById('width')
+            heightEl = document.getElementById('height')
+            canvasEl.width = widthEl.value ? widthEl.value : 3
+            canvasEl.height = heightEl.value ? heightEl.value : 812
+            const canvasContainerEl = document.querySelectorAll('.canvas-container')[0]
+            canvasContainerEl.style.width = canvasEl.width
+            canvasContainerEl.style.height = canvasEl.height*/
         }
+
         resizeCanvas()
 
-        widthEl.addEventListener('change', () => {
+        /*widthEl.addEventListener('change', () => {
             resizeCanvas()
             initCanvas()
             addDefaultObjects()
@@ -159,17 +203,19 @@
             resizeCanvas()
             initCanvas()
             addDefaultObjects()
-        })
+        })*/
 
         function generateId() {
             return Math.random().toString(36).substr(2, 8)
         }
 
-        function addRect(left, top, width, height) {
+        function addRect(left, top, width, height, scaleX, scaleY) {
             const id = generateId()
             const o = new fabric.Rect({
                 width: width,
                 height: height,
+                scaleX: scaleX,
+                scaleY: scaleY,
                 fill: tableFill,
                 stroke: tableStroke,
                 strokeWidth: 2,
@@ -229,7 +275,7 @@
                 centeredRotation: true,
                 snapAngle: 45,
                 selectable: true,
-                type: 'table',
+                type: 'circle',
                 id: id,
                 number: number
             })
@@ -264,7 +310,7 @@
                 centeredRotation: true,
                 snapAngle: 45,
                 selectable: true,
-                type: 'table',
+                type: 'triangle',
                 id: id,
                 number: number
             })
@@ -393,17 +439,17 @@
         }
 
         document.querySelectorAll('.rectangle')[0].addEventListener('click', function() {
-            const o = addRect(0, 0, 60, 60)
+            const o = addRect(0, 0, 60, 60, 1, 1, number)
             canvas.setActiveObject(o)
         })
 
         document.querySelectorAll('.circle')[0].addEventListener('click', function() {
-            const o = addCircle(0, 0, 30)
+            const o = addCircle(0, 0, 30, number)
             canvas.setActiveObject(o)
         })
 
         document.querySelectorAll('.triangle')[0].addEventListener('click', function() {
-            const o = addTriangle(0, 0, 30)
+            const o = addTriangle(0, 0, 30, number)
             canvas.setActiveObject(o)
         })
 
@@ -432,7 +478,7 @@
             }
         })
 
-        document.querySelectorAll('.customer-mode')[0].addEventListener('click', function() {
+        /*document.querySelectorAll('.customer-mode')[0].addEventListener('click', function() {
             canvas.getObjects().map(o => {
                 o.hasControls = false
                 o.lockMovementX = true
@@ -449,7 +495,7 @@
             canvas.renderAll()
             document.querySelectorAll('.admin-menu')[0].style.display = 'none'
             document.querySelectorAll('.customer-menu')[0].style.display = 'block'
-        })
+        })*/
 
         document.querySelectorAll('.admin-mode')[0].addEventListener('click', function() {
             canvas.getObjects().map(o => {
@@ -481,18 +527,43 @@
             return normal + ' (' + english + ')'
         }
 
-        document.querySelectorAll('.submit')[0].addEventListener('click', function() {
+        document.querySelectorAll('.getObjects')[0].addEventListener('click', function() {
             const obj = canvas.getActiveObject()
-            $('#modal').modal('show')
-            let modalText = 'You have not selected anything'
-            if (obj) {
-                modalText = 'You have selected table ' + obj.number + ', time: ' + formatTime(slider.noUiSlider
-                .get())
-            }
-            document.querySelectorAll('#modal-table-id')[0].innerHTML = modalText
+            objs = []
+            canvas.getObjects().filter((item) => {
+                return item.type !== 'line'
+            }).map((item) => {
+                objs.push({
+                    width: item.width,
+                    height: item.height,
+                    type: item.type,
+                    number: item.number,
+                    left: item.left,
+                    top: item.top,
+                    scaleX: item.scaleX,
+                    scaleY: item.scaleY,
+                })
+            })
+
+            $.ajax({
+                url: "{{ url('/panel/mesas/' . session()->get('branch')->id) }}",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    _method: "PUT",
+                    elements: objs
+                },
+                success: function(data) {
+                    tata.success('Éxito', data.msg)
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            })
         })
 
-        const slider = document.getElementById('slider')
+        /*const slider = document.getElementById('slider')
         noUiSlider.create(slider, {
             start: 1200,
             step: 15,
@@ -506,61 +577,79 @@
         const sliderValue = document.getElementById('slider-value')
         slider.noUiSlider.on('update', function(values, handle) {
             sliderValue.innerHTML = formatTime(values[handle])
-        })
+        })*/
 
         function addDefaultObjects() {
-            addChair(15, 105)
-            addChair(15, 135)
-            addChair(75, 105)
-            addChair(75, 135)
-            addChair(225, 75)
-            addChair(255, 75)
-            addChair(225, 135)
-            addChair(255, 135)
-            addChair(225, 195)
-            addChair(255, 195)
-            addChair(225, 255)
-            addChair(255, 255)
-            addChair(15, 195)
-            addChair(45, 195)
-            addChair(15, 255)
-            addChair(45, 255)
-            addChair(15, 315)
-            addChair(45, 315)
-            addChair(15, 375)
-            addChair(45, 375)
-            addChair(225, 315)
-            addChair(255, 315)
-            addChair(225, 375)
-            addChair(255, 375)
-            addChair(15, 435)
-            addChair(15, 495)
-            addChair(15, 555)
-            addChair(15, 615)
-            addChair(225, 615)
-            addChair(255, 615)
-            addChair(195, 495)
-            addChair(195, 525)
-            addChair(255, 495)
-            addChair(255, 525)
-            addChair(225, 675)
-            addChair(255, 675)
+            addChair(40, 75)
+            addChair(80, 75)
+            addChair(40, 135)
+            addChair(80, 135)
 
-            addRect(30, 90, 60, 90)
-            addRect(210, 90, 90, 60)
-            addRect(210, 210, 90, 60)
-            addRect(0, 210, 90, 60)
-            addRect(0, 330, 90, 60)
-            addRect(210, 330, 90, 60)
-            addRect(0, 450, 60, 60)
-            addRect(0, 570, 60, 60)
-            addRect(210, 480, 60, 90)
-            addRect(210, 630, 90, 60)
+            addChair(170, 75)
+            addChair(210, 75)
+            addChair(170, 135)
+            addChair(210, 135)
+
+            addRect(30, 90, 90, 60, 1, 1)
+            addRect(160, 90, 90, 60, 1, 1)
 
             addBar(120, 0, 180, 60)
-
-            addWall(120, 510, 60, 60)
         }
-        addDefaultObjects()
+
+        function getElements() {
+            $.ajax({
+                url: "{{ url('/panel/mesas') }}",
+                method: "GET",
+                success: function(data) {
+                    if (data.data.length > 0) {
+                        data.data.map((item) => {
+                            switch (item.type) {
+                                case "table":
+                                    addRect(item.left, item.top, item.width, item.height, item.scaleX,
+                                        item.scaleY);
+                                    break;
+                                case "circle":
+                                    addCircle(item.left, item.top, item.width, item.height, 30)
+                                    break;
+                                case "triangle":
+                                    addTriangle(item.left, item.top, item.width, item.height, 30)
+                                    break;
+                                case "bar":
+                                    addBar(item.left, item.top, item.width, item.height)
+                                    break;
+                                case "chair":
+                                    addChair(item.left, item.top)
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        })
+
+                    } else {
+                        addDefaultObjects()
+                    }
+                }
+            })
+        }
+
+        getElements();
+
+        function debounce(func) {
+            var timer;
+            return function(event) {
+                if (timer) clearTimeout(timer);
+                timer = setTimeout(func, 1500, event);
+            };
+        }        
+
+        window.addEventListener("resize", debounce(function(e) {
+            initCanvas()
+            resizeCanvas()
+            getElements();
+        }));
+
+        
     </script>
 @endsection

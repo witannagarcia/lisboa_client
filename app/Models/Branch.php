@@ -25,4 +25,9 @@ class Branch extends Model
     {
         return $this->hasOne('App\Models\Setting');
     }
+
+    public function elements()
+    {
+        return $this->hasMany('App\Models\Element');
+    }
 }

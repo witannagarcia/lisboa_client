@@ -30,4 +30,9 @@ class Branch extends Model
     {
         return $this->hasMany('App\Models\Element');
     }
+
+    public function table()
+    {
+        return $this->hasOne('App\Models\BranchTable');
+    }
 }

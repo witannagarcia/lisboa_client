@@ -4,37 +4,27 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4" style="height: 600px;">
-                <div class="card-body h-100 p2 pb-2">
-                    <div class="row h-100">
+            <div class="card mb-4">
+                <div class="card-body p2 pb-2">
+                    <div class="row">
                         <div class="col-12">
                             <h5>Configuración de mesas</h5>
                             <hr>
-                            <!--<div class="row">
-                                                        <div class="col-sm-2 col-sm-offset-3 form-group">
-                                                            <label>Width (px)</label>
-                                                            <input type="number" id="width" class="form-control" value="302" />
-                                                        </div>
-                                                        <div class="col-sm-2 form-group">
-                                                            <label>Height (px)</label>
-                                                            <input type="number" id="height" class="form-control" value="812" />
-                                                        </div>
-                                                        <div class="col-sm-2 form-group">
-                                                            <label>&nbsp;</label>
-                                                            <br />
-                                                            <button class="btn btn-primary">Save</button>
-                                                        </div>
-                                                    </div>-->
                             <div class="row">
-                                <div class="btn-group mb-3">
-                                    <button class="btn btn-primary rectangle">+ &#9647; Mesa</button>
-                                    <button class="btn btn-primary circle">+ &#9711; Mesa</button>
-                                    <button class="btn btn-primary triangle">+ &#9651; Mesa</button>
-                                    <button class="btn btn-primary chair">+ Silla</button>
-                                    <button class="btn btn-primary bar">+ Bar / Barra</button>
-                                    <button class="btn btn-default wall">+ Muro</button>
-                                    <button class="btn btn-danger remove">Eliminar</button>
-                                    <!--<button class="btn btn-warning customer-mode">Customer mode</button>-->
+                                <div class="col-sm-8">
+                                    <div class="btn-group w-100 mb-3">
+                                        <button class="btn btn-primary rectangle">+ &#9647; Mesa</button>
+                                        <button class="btn btn-primary circle">+ &#9711; Mesa</button>
+                                        <button class="btn btn-primary triangle">+ &#9651; Mesa</button>
+                                        <button class="btn btn-primary chair">+ Silla</button>
+                                        <button class="btn btn-primary bar">+ Bar / Barra</button>
+                                        <button class="btn btn-default wall">+ Muro</button>
+                                        <button class="btn btn-danger remove">Eliminar</button>
+                                        <!--<button class="btn btn-warning customer-mode">Customer mode</button>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-primary btn-block d-none QrShow">Ver código QR</a>
                                 </div>
                                 <div class="form-group customer-menu" style="display: none;">
                                     <div class="btn-group">
@@ -46,10 +36,28 @@
                                     <div id="slider"></div>
                                     <div id="slider-value"></div>
                                 </div>
-                                <canvas id="canvas" class="w-100 h-100"></canvas>
                             </div>
-                            <div class="row mt-3">
-                                <div class="btn btn-primary getObjects">Guardar configuración</div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class='resizable mh-100 mw-100 mx-auto'
+                                        style="width: {{ $branch->table->width }}px; height: {{ $branch->table->height }}px;">
+                                        <div class='resizers'>
+                                            <div class='resizer top-left'></div>
+                                            <div class='resizer top-right'></div>
+                                            <div class='resizer bottom-left'></div>
+                                            <div class='resizer bottom-right'></div>
+                                        </div>
+                                        <canvas id="canvas"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+
+                                </div>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-sm-12 text-center">
+                                    <div class="btn btn-primary getObjects">Guardar configuración</div>
+                                </div>
                             </div>
 
                         </div>
@@ -65,8 +73,11 @@
     <script>
         let canvas
         let number
-        const grid = 25
-        const backgroundColor = '#f8f8f8'
+        let widthResizable = parseInt("{{ $branch->table->width }}")
+        heightResizable = parseInt("{{ $branch->table->height }}")
+        const grid = 30
+        let selectedTable;
+        const backgroundColor = '#ccc'
         const lineStroke = '#ebebeb'
         const tableFill = 'rgba(150, 111, 51, 0.7)'
         const tableStroke = '#694d23'
@@ -82,14 +93,26 @@
         const wallStroke = '#686868'
         const wallShadow = 'rgba(0, 0, 0, 0.4) 5px 5px 20px'
 
-        const parentWidth = $('canvas').closest('.row').width()
-        const parentHeight = $(window).height() - 350;
-
         var photoUrlLandscape = 'https://images8.alphacoders.com/292/292379.jpg',
             photoUrlPortrait =
             'https://presspack.rte.ie/wp-content/blogs.dir/2/files/2015/04/AMC_TWD_Maggie_Portraits_4817_V1.jpg'
 
         let canvasEl = document.getElementById('canvas')
+
+        $(document).on('click', '.QrShow', function() {
+            $.ajax({
+                    url: "{{ url('/panel/mesas') }}/"+selectedTable.number,
+                    type: 'GET',
+                    success: function(data){
+                        console.log(data)
+                        $('#QRModal .modal-body').html(data.qrCode); 
+                    $('#QRModal').modal('show')
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+        })
 
         function initCanvas() {
             if (canvas) {
@@ -98,18 +121,19 @@
             }
 
             canvas = new fabric.Canvas('canvas', {
-                backgroundColor: 'rgb(190,100,200)',
-                width: parentWidth,
-                height: parentHeight
+                //backgroundColor: 'rgb(190,100,200)',
+                width: $('.resizable').width(),
+                height: $('.resizable').height()
             })
             number = 1
             canvas.backgroundColor = backgroundColor
-            canvas.setBackgroundImage(
+            /*canvas.setBackgroundImage(
                 'https://img.freepik.com/free-photo/tile-wall-background_63047-967.jpg?size=626&ext=jpg',
-                canvas.renderAll.bind(canvas));
+                canvas.renderAll.bind(canvas));*/
+            //canvas.backgroundColor = new fabric.Pattern({source: 'https://img.freepik.com/free-photo/tile-wall-background_63047-967.jpg?size=626&ext=jpg'})
 
-            for (let i = 0; i < (canvas.height / (grid * .6)); i++) {
-                const lineX = new fabric.Line([0, i * grid, canvas.height * 2, i * grid], {
+            for (let i = 0; i < (canvas.height / (grid / 5)); i++) {
+                const lineX = new fabric.Line([0, i * grid, canvas.width, i * grid], {
                     stroke: lineStroke,
                     selectable: false,
                     type: 'line'
@@ -124,16 +148,26 @@
                 canvas.add(lineY)
             }
 
+            $('.canvas-container').css({
+                position: ''
+            });
+
             canvas.on('object:moving', function(e) {
                 snapToGrid(e.target)
             })
 
             canvas.on('object:selected', function(e) {
-                console.log(e)
+                console.log(e.target)
+                if (e.target.type == "table") {
+                    selectedTable = e.target
+                    $('.QrShow').removeClass('d-none')
+                } else {
+                    $('.QrShow').addClass('d-none')
+                }
             });
 
             canvas.on('object:scaling', function(e) {
-                if (e.target.scaleX > 5) {
+                /*if (e.target.scaleX > 5) {
                     e.target.scaleX = 5
                 }
                 if (e.target.scaleY > 5) {
@@ -147,14 +181,13 @@
                     if (e.target.strokeWidth === e.target.strokeWidthUnscaled) {
                         e.target.strokeWidth = e.target.strokeWidthUnscaled / e.target.scaleY
                     }
-                }
+                }*/
             })
 
             canvas.on('object:modified', function(e) {
-                console.log(e)
-                e.target.scaleX = e.target.scaleX >= 0.25 ? (Math.round(e.target.scaleX * 2) / 2) : 0.5
+                /*e.target.scaleX = e.target.scaleX >= 0.25 ? (Math.round(e.target.scaleX * 2) / 2) : 0.5
                 e.target.scaleY = e.target.scaleY >= 0.25 ? (Math.round(e.target.scaleY * 2) / 2) : 0.5
-                snapToGrid(e.target)
+                snapToGrid(e.target)*/
                 if (e.target.type === 'table') {
                     canvas.bringToFront(e.target)
                 } else {
@@ -170,7 +203,7 @@
                 checkBoudningBox(e)
             })
             canvas.observe('object:scaling', function(e) {
-                checkBoudningBox(e)
+                //checkBoudningBox(e)
             })
 
         }
@@ -178,32 +211,12 @@
         initCanvas()
 
         function resizeCanvas() {
-            canvasEl.width = $('.main-panel').width();
-            canvasEl.height = canvasEl.height / 2
+            canvasEl.width = $('.resizeble').width();
+            canvasEl.height = $('.resizeble').height();
             const canvasContainerEl = document.querySelectorAll('.canvas-container')[0]
-            canvasContainerEl.style.width = $('.main-panel').width();
-            canvasContainerEl.style.height = canvasEl.height
-            /*widthEl = document.getElementById('width')
-            heightEl = document.getElementById('height')
-            canvasEl.width = widthEl.value ? widthEl.value : 3
-            canvasEl.height = heightEl.value ? heightEl.value : 812
-            const canvasContainerEl = document.querySelectorAll('.canvas-container')[0]
-            canvasContainerEl.style.width = canvasEl.width
-            canvasContainerEl.style.height = canvasEl.height*/
+            canvasContainerEl.style.width = $('.resizeble').width();
+            canvasContainerEl.style.height = $('.resizeble').height();
         }
-
-        resizeCanvas()
-
-        /*widthEl.addEventListener('change', () => {
-            resizeCanvas()
-            initCanvas()
-            addDefaultObjects()
-        })
-        heightEl.addEventListener('change', () => {
-            resizeCanvas()
-            initCanvas()
-            addDefaultObjects()
-        })*/
 
         function generateId() {
             return Math.random().toString(36).substr(2, 8)
@@ -527,10 +540,9 @@
             return normal + ' (' + english + ')'
         }
 
-        document.querySelectorAll('.getObjects')[0].addEventListener('click', function() {
-            const obj = canvas.getActiveObject()
+        $(document).on('click', '.getObjects', async function() {
             objs = []
-            canvas.getObjects().filter((item) => {
+            await canvas.getObjects().filter((item) => {
                 return item.type !== 'line'
             }).map((item) => {
                 objs.push({
@@ -545,6 +557,11 @@
                 })
             })
 
+            if (objs.length == 0) {
+                console.log(canvas.getObjects())
+                return false;
+            }
+
             $.ajax({
                 url: "{{ url('/panel/mesas/' . session()->get('branch')->id) }}",
                 type: 'POST',
@@ -552,7 +569,8 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     _method: "PUT",
-                    elements: objs
+                    type: "elements",
+                    elements: objs,
                 },
                 success: function(data) {
                     tata.success('Éxito', data.msg)
@@ -601,8 +619,8 @@
                 url: "{{ url('/panel/mesas') }}",
                 method: "GET",
                 success: function(data) {
-                    if (data.data.length > 0) {
-                        data.data.map((item) => {
+                    if (data.data.elements.length > 0) {
+                        data.data.elements.map((item) => {
                             switch (item.type) {
                                 case "table":
                                     addRect(item.left, item.top, item.width, item.height, item.scaleX,
@@ -642,14 +660,111 @@
                 if (timer) clearTimeout(timer);
                 timer = setTimeout(func, 1500, event);
             };
-        }        
+        }
 
-        window.addEventListener("resize", debounce(function(e) {
-            initCanvas()
-            resizeCanvas()
-            getElements();
-        }));
+        function makeResizableDiv(div) {
+            const element = document.querySelector(div);
+            const resizers = document.querySelectorAll(div + ' .resizer')
+            const minimum_size = 20;
+            let original_width = 0;
+            let original_height = 0;
+            let original_x = 0;
+            let original_y = 0;
+            let original_mouse_x = 0;
+            let original_mouse_y = 0;
+            for (let i = 0; i < resizers.length; i++) {
+                const currentResizer = resizers[i];
+                currentResizer.addEventListener('mousedown', function(e) {
+                    e.preventDefault()
+                    original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace(
+                        'px', ''));
+                    original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace(
+                        'px', ''));
+                    original_x = element.getBoundingClientRect().left;
+                    original_y = element.getBoundingClientRect().top;
+                    original_mouse_x = e.pageX;
+                    original_mouse_y = e.pageY;
+                    window.addEventListener('mousemove', resize)
+                    window.addEventListener('mouseup', stopResize)
+                })
 
-        
+                function resize(e) {
+                    if (currentResizer.classList.contains('bottom-right')) {
+                        const width = original_width + (e.pageX - original_mouse_x);
+                        const height = original_height + (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                        }
+                    } else if (currentResizer.classList.contains('bottom-left')) {
+                        const height = original_height + (e.pageY - original_mouse_y)
+                        const width = original_width - (e.pageX - original_mouse_x)
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                        }
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                            //element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                        }
+                    } else if (currentResizer.classList.contains('top-right')) {
+                        const width = original_width + (e.pageX - original_mouse_x)
+                        const height = original_height - (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                            //element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                        }
+                    } else {
+                        const width = original_width - (e.pageX - original_mouse_x)
+                        const height = original_height - (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                            //element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                            //element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                        }
+                    }
+                }
+
+                function stopResize() {
+                    console.log('dejo de moverse')
+                    widthResizable = $('.resizable').width();
+                    heightResizable = $('.resizable').height();
+
+                    $.ajax({
+                        url: "{{ url('/panel/mesas/' . session()->get('branch')->id) }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: "PUT",
+                            type: "size",
+                            width: widthResizable,
+                            height: heightResizable,
+                        },
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    })
+
+                    /*window.removeEventListener('mousemove', resize)                    
+
+                    initCanvas();
+                    getElements();*/
+                    //resizeCanvas();
+                }
+            }
+        }
+
+        makeResizableDiv('.resizable')
     </script>
 @endsection

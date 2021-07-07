@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
+use App\Models\BranchTable;
 use App\Models\QrSetting;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -71,6 +72,10 @@ class BranchController extends Controller
         $setting = new Setting();
         $setting->branch_id = $branch->id;
         $setting->save();
+
+        $table = new BranchTable();
+        $table->branch_id = $branch->id;
+        $table->save();
 
         if(DB::table('branches')->where('restaurant_id', env('RESTAURANT_ID'))->count() < 2){
             session()->put('branch', $branch);

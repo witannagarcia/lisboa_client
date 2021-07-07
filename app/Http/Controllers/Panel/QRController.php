@@ -16,9 +16,7 @@ class QRController extends Controller
 {
     public function index()
     {
-        echo Hash::make('$Colima2021');
-        dd();
-        $qrSetting = session()->get('branch')->QrSetting;
+        $qrSetting = QrSetting::where('branch_id', session()->get('branch')->id)->first();
         $categories = Category::where('branch_id', session()->get('branch')->id)->orderBy('order', 'ASC')->get();
         return view('panel.qr.index', ["QrSetting" => $qrSetting, "categories" => $categories]);
     }

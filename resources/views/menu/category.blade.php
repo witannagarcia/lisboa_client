@@ -26,7 +26,7 @@
                     <p class="h5 text-white">{{ $cat->name }}</p>
                     @foreach ($cat->dishes as $dish)
                         <div class="col-6">
-                            <a href="{{ url('/menu/platillo/' . $dish->id) }}" class="text-decoration-none">
+                            <a href="{{ url('/menu/platillo/' . $dish->id.'?table='.$table) }}" class="text-decoration-none">
                                 <div class="card cardDish border-0 rounded-lg h-100">
                                     <div class="card-body p-0">
                                         <img src="{{ Storage::disk('public')->url($dish->image->url) }}" class="mw-100"
@@ -45,7 +45,7 @@
             @endforeach
             @foreach ($category->dishes as $dish)
                 <div class="col-6">
-                    <a href="{{ url('/menu/platillo/' . $dish->id) }}" class="text-decoration-none">
+                    <a href="{{ url('/menu/platillo/' . $dish->id.'?table='.$table) }}" class="text-decoration-none">
                         <div class="card cardDish border-0 rounded-lg h-100">
                             <div class="card-body p-0">
                                 <img src="{{ Storage::disk('public')->url($dish->image->url) }}" class="mw-100" alt="">
@@ -62,7 +62,7 @@
         @else
             @foreach ($category->dishes as $dish)
                 <div class="col-6">
-                    <a href="{{ url('/menu/platillo/' . $dish->id) }}" class="text-decoration-none">
+                    <a href="{{ url('/menu/platillo/' . $dish->id.'?table='.$table) }}" class="text-decoration-none">
                         <div class="card cardDish border-0 rounded-lg h-100">
                             <div class="card-body p-0">
                                 <img src="{{ Storage::disk('public')->url($dish->image->url) }}" class="mw-100" alt="">

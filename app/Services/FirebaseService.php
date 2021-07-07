@@ -23,9 +23,9 @@ class FirebaseService
         return $orders;
     }
 
-    public function saveOrder()
+    public function saveOrder($data)
     {
-        $order = $this->db->getReference('orders')->push(["user_id"=>"2", "status"=>"craedo"]);
+        $order = $this->db->getReference('orders')->push(["table"=>$data["table"],"restaurant_name"=>$data["restaurant_name"],"branch"=>$data["branch"],"user_name"=>$data["user_name"], "status"=>"craedo"]);
         return $order->getKey();
     }
 

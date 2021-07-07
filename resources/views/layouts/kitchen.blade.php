@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ env('APP_NAME') }} | Cocina</title>
     <link rel="stylesheet" href="{{ asset('css/kitchen.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
 </head>
 
 <body>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="bar d-flex justify-content-between py-2">
     <div >
-        <a href="{{ url('/menu/categoria/'.$dish->category_id.'?table='.$table) }}" class="h4 text-white text-decoration-none">
+        <a href="{{ url('/menu/categoria/'.$dish->category_id.'?table='.$table.'&branch_id='.$branch->id) }}" class="h4 text-white text-decoration-none">
             <i class="mdi mdi-chevron-left h5"></i> <span class="h5">Atras</span>
         </a>
     </div>
@@ -56,7 +56,7 @@
         <div class="row mt-2">
             @foreach($similars as $similar)
     <div class="col-6">
-        <a href="{{ url('/menu/platillo/'.$similar->id.'?table='.$table) }}" class="text-decoration-none">
+        <a href="{{ url('/menu/platillo/'.$similar->id.'?table='.$table.'&branch_id='.$branch->id) }}" class="text-decoration-none">
             <div class="card cardDish border-0 rounded-lg h-100">
                 <div class="card-body p-0">
                     <img src="{{ Storage::disk('public')->url($similar->image->url) }}" class="mw-100" alt="">

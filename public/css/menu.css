@@ -11059,7 +11059,7 @@ html body #btnFilters.show {
   transform: translateY(-625%);
 }
 html body #order {
-  z-index: 30;
+  z-index: 110;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -11080,7 +11080,7 @@ html body #order i {
   color: #fff;
 }
 html body #hamburger {
-  z-index: 30;
+  z-index: 110;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -11152,6 +11152,7 @@ html body #orderDiv {
   height: 80%;
   top: 100%;
   left: 0;
+  display: none;
   padding: 1.2em 0.5em;
   overflow: scroll;
   background-color: #fff;
@@ -11159,6 +11160,7 @@ html body #orderDiv {
   transition: all 1s;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+  z-index: 100;
 }
 html body #orderDiv .card-image {
   height: 80px;
@@ -11175,4 +11177,5 @@ html body #orderDiv .card-image img {
 }
 html body #orderDiv.close {
   top: 20%;
+  display: block;
 }

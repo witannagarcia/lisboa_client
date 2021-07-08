@@ -226,7 +226,7 @@ html {
         }
 
         #order {
-          z-index: 30;
+          z-index: 110;
           position: fixed;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -259,7 +259,7 @@ html {
         }
         
         #hamburger {
-          z-index: 30;
+          z-index: 110;
           position: fixed;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -368,12 +368,14 @@ html {
           height: 80%;
           top: 100%;
           left: 0;
+          display: none;
           padding: 1.2em .5em;
           overflow: scroll;
           background-color: #fff; color: #000;
           transition: all 1s;
           border-top-left-radius: 30px;
           border-top-right-radius: 30px;
+          z-index: 100;
 
           .card-image {
             height: 80px;
@@ -392,6 +394,7 @@ html {
         
         #orderDiv.close {
           top: 20%;
+          display: block;
         }
     }
 }

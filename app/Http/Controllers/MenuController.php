@@ -30,7 +30,7 @@ class MenuController extends Controller
     public function category(Request $request, $id)
     {
         $category = Category::find($id);
-        $branch = Branch::find($category->branch_id);
+        $branch = Branch::find($request->query('branch_id'));
         $table = $request->query('table') ? $request->query('table') : NULL;
         return view('menu.category', ["category" => $category, "branch" => $branch, "table" => $table]);
     }
@@ -38,7 +38,7 @@ class MenuController extends Controller
     public function dish(Request $request, $id)
     {
         $dish = Dish::find($id);
-        $branch = Branch::find($dish->category->branch_id);
+        $branch = Branch::find($request->query('branch_id'));
         $similars = Dish::where('category_id', $dish->category_id)->where('id', '!=', $id)->limit(5)->get();
         $table = $request->query('table') ? $request->query('table') : NULL;
         return view('menu.dish', ["branch" => $branch, "dish" => $dish, 'similars' => $similars, 'table' => $table]);
@@ -64,8 +64,8 @@ class MenuController extends Controller
         $orderDishes = session()->get('order');
 
         $order = new Order();
-        $order->restaurant_id = session()->get('branch')->restaurant_id;
-        $order->branch_id = session()->get('branch')->id;
+        $order->restaurant_id = env('RESTAURANT_ID');
+        $order->branch_id = $request->query('branch_id');
         $order->branch_table_id = $request->query('table');
         $order->status = 'creado';
         $order->save();

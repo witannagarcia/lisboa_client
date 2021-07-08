@@ -86,7 +86,7 @@
                 </table>
                 <p class="text-center">
                   <a href="{{ url('/menu/cancelar-orden') }}" class="btn btn-secondary">Cancelar orden</a>
-                  <a href="{{ url('/menu/orden?table='.$table) }}" class="btn btn-primary">Finalizar orden</a>
+                  <a href="{{ url('/menu/orden?branch_id='.$branch->id.'&table='.$table) }}" class="btn btn-primary">Finalizar orden</a>
                 </p>
             @else
             @endif

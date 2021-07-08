@@ -63,8 +63,10 @@ class MenuController extends Controller
     {
         $orderDishes = session()->get('order');
 
+        $branch = Branch::find($request->query('branch_id'));
+
         $order = new Order();
-        $order->restaurant_id = env('RESTAURANT_ID');
+        $order->restaurant_id = $branch->restaurant_id;
         $order->branch_id = $request->query('branch_id');
         $order->branch_table_id = $request->query('table');
         $order->status = 'creado';
@@ -78,9 +80,9 @@ class MenuController extends Controller
             $dish->save();
         }
 
-        $restaurant = Restaurant::find(session()->get('branch')->restaurant_id);
+        $restaurant = Restaurant::find($branch->restaurant_id);
 
-        $data = ["table"=>$request->query('table'), "restaurant_name"=>$restaurant->name, "branch"=>session()->get('branch')->name,"user_name"=>"", "status"=>"creado"];
+        $data = ["table"=>$request->query('table'), "restaurant_name"=>$restaurant->name, "branch"=>$branch->name,"user_name"=>"", "status"=>"creado"];
         
         $firebase = new FirebaseService();
         $firebase->saveOrder($data);

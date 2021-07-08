@@ -131,10 +131,6 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-sm-12">
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-icon-text">
-                                    <i class="mdi mdi-arrow-left"></i>
-                                    Regresar
-                                </a>
                                 <button type="submit" class="btn btn-icon-text btn-primary">
                                     <i class="mdi mdi-content-save"></i>
                                     Guardar

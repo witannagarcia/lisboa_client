@@ -81,6 +81,12 @@
                       <span class="menu-title">Dashboard</span>
                   </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/panel/usuarios') }}">
+                    <i class="mdi mdi-account-group menu-icon"></i>
+                    <span class="menu-title">Usuarios</span>
+                </a>
+            </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/categorias') }}">
                         <i class="mdi mdi-drawing menu-icon"></i>

@@ -36,7 +36,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->where('restaurant_id', env('RESTAURANT_ID'))->whereIn('role', ['admin', 'restaurante'])->first();
+        $user = User::where('email', $request->email)->where('restaurant_id', env('RESTAURANT_ID'))->whereIn('role', ['admin', 'restaurante','cocinero'])->first();
 
         if($user){
 
@@ -48,6 +48,9 @@ class AuthController extends Controller
                         case 'admin':
                             return redirect()->intended('/panel/dashboard');
                             break;
+                            case 'cocinero':
+                                return redirect()->intended('/cocina/ordenes');
+                                break;
                         case 'restaurante':
                                 return redirect()->intended('/panel/dashboard');
                                 break;

@@ -28,9 +28,14 @@ Route::get('/menu/cancelar-orden', [Controllers\MenuController::class, "cancelOr
     dd($firebase->saveOrder());
 });*/
 
-Route::get('/listen-orders', function(){
-    return view('kitchen.orders.index');
-});
+
+
+/*Route::prefix('cocina')->middleware('auth')->group(function () {
+    Route::get('/ordenes', function(){
+        return view('kitchen.orders.index');
+    });
+
+});*/
 
 
 Route::prefix('panel')->middleware('auth')->group(function () {
@@ -55,6 +60,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
     Route::resource('/categorias', Controllers\Panel\CategoryController::class);
     Route::resource('/sucursales', Controllers\Panel\BranchController::class);
     Route::resource('/mesas', Controllers\Panel\TableController::class);
+    Route::resource('/usuarios', Controllers\Panel\UserController::class);
 });
 
 Route::prefix('cocina')->middleware('auth')->group(function(){

@@ -77,7 +77,7 @@
                                                             title="Choose your color">
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <!--<div class="form-group">
                                                     <label for="" class="float-start">Logo</label>
                                                     <br>
                                                     <div id="emailHelp" class="form-text mb-2">
@@ -89,7 +89,7 @@
                                                                 {{ $QrSetting->logo ? 'checked' : '' }}>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 <br>
                                                 <div class="form-group text-center">
                                                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -150,13 +150,13 @@
                                 [$r2, $g2, $b2] = sscanf($hex, '#%02x%02x%02x');
                                 ?>
                                 @if ($QrSetting->gradiant == 1)
-                                    @if ($QrSetting->logo)
-                                        {!! QrCode::size(200)->mergeString('https://images.vexels.com/media/users/3/136294/isolated/lists/4172fc9833fe18b5f8669b148713a189-icono-de-enlace.png', 0.3, true)->gradient($r, $g, $b, $r2, $g2, $b2, 'radial')->style($QrSetting->type ? $QrSetting->type : 'square')->eye($QrSetting->eye_style ? $QrSetting->eye_style : 'square')->generate(url('/menu?branch_id='.session()->get('branch')->id), public_path() . '/images/adjfkf.svg') !!}
+                                    @if ($QrSetting->logo == 1)
+                                        {!! QrCode::size(200)->merge('https://images.vexels.com/media/users/3/136294/isolated/lists/4172fc9833fe18b5f8669b148713a189-icono-de-enlace.png', 0.3, true)->gradient($r, $g, $b, $r2, $g2, $b2, 'radial')->style($QrSetting->type ? $QrSetting->type : 'square')->eye($QrSetting->eye_style ? $QrSetting->eye_style : 'square')->generate(url('/menu?branch_id='.session()->get('branch')->id), public_path() . '/images/adjfkf.svg') !!}
                                     @else
                                         {!! QrCode::size(200)->gradient($r, $g, $b, $r2, $g2, $b2, 'radial')->style($QrSetting->type ? $QrSetting->type : 'square')->eye($QrSetting->eye_style ? $QrSetting->eye_style : 'square')->generate(url('/menu?branch_id='.session()->get('branch')->id)) !!}
                                     @endif
                                 @else
-                                    @if ($QrSetting->logo)
+                                    @if ($QrSetting->logo == 1)
                                         {!! QrCode::size(200)->merge('https://images.vexels.com/media/users/3/136294/isolated/lists/4172fc9833fe18b5f8669b148713a189-icono-de-enlace.png', 0.3, true)->color($r, $g, $b)->style($QrSetting->type ? $QrSetting->type : 'square')->eye($QrSetting->eye_style ? $QrSetting->eye_style : 'square')->generate(url('/menu?branch_id='.session()->get('branch')->id)) !!}
                                     @else
                                         {!! QrCode::size(200)->color($r, $g, $b)->style($QrSetting->type ? $QrSetting->type : 'square')->eye($QrSetting->eye_style ? $QrSetting->eye_style : 'square')->generate(url('/menu?branch_id='.session()->get('branch')->id)) !!}

@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -15,7 +16,7 @@ class QRController extends Controller
 {
     public function index()
     {
-        $qrSetting = session()->get('branch')->QrSetting;
+        $qrSetting = QrSetting::where('branch_id', session()->get('branch')->id)->first();
         $categories = Category::where('branch_id', session()->get('branch')->id)->orderBy('order', 'ASC')->get();
         return view('panel.qr.index', ["QrSetting" => $qrSetting, "categories" => $categories]);
     }

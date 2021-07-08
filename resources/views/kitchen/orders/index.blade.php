@@ -5,29 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="{{ asset('css/orders.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
+    <title>Cocina</title>
 </head>
 
 <body>
-    <audio src="{{}}"></audio>
     <div id="app_basic">
-        <h1 v-text="message"></h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Estatus</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="order in orders" :key="order.id">
-                    <td v-text="order.id"></td>
-                    <td v-text="order.status"></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="jumbotron vertical-center">
+            <div class="container">
+                <h1 class="text-center" v-text="message"></h1>
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Sucursal</th>
+                            <th scope="col">Mesa</th>
+                            <th scope="col">Estatus</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(order,index) in orders" :key="order.id">
+                            <td scope="row" v-text="(index+1)"></td>
+                            <td v-text="order.branch"></td>
+                            <td v-text="order.table"></td>
+                            <td v-text="order.status"></td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm px-3">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </body>
@@ -44,7 +57,7 @@
         el: "#app_basic",
         data: {
             fire: null,
-            message: "🐵 Hello World 🔮",
+            message: "Lista de Ordenes",
             firebaseConfig: {
                 apiKey: "AIzaSyBjQrgPenNglpegK3mI14owZ6rJSQAsnZI",
                 authDomain: "lafinca-2370d.firebaseapp.com",
@@ -63,12 +76,11 @@
             itemsRef.on("value", snapshot => {
                 let data = snapshot.val();
                 let messages = [];
-                var snd = new Audio('{{ asset("sounds/bell.mp3") }}');
-        snd.play();
                 Object.keys(data).forEach(key => {
                     messages.push({
                         id: key,
-                        user_id: data[key].user_id,
+                        branch: data[key].branch,
+                        table: data[key].table,
                         status: data[key].status
                     });
                 });

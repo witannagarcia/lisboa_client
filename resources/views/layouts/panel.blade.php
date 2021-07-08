@@ -81,6 +81,12 @@
                       <span class="menu-title">Dashboard</span>
                   </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/panel/usuarios') }}">
+                    <i class="mdi mdi-account-group menu-icon"></i>
+                    <span class="menu-title">Usuarios</span>
+                </a>
+            </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/panel/categorias') }}">
                         <i class="mdi mdi-drawing menu-icon"></i>
@@ -119,12 +125,12 @@
                         <span class="menu-title">Configuración de menu</span>
                     </a>
                 </li>
-                <!--<li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link" href="{{ url('/panel/mesas') }}">
                       <i class="mdi mdi-grid menu-icon"></i>
                       <span class="menu-title">Configuración de Mesas</span>
                   </a>
-              </li>-->
+              </li>
                 <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -1045,6 +1051,15 @@
                                     sucursal</a>
                             </p>
                         @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="QRModal" tabindex="-1"
+            role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">                        
                     </div>
                 </div>
             </div>

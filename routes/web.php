@@ -19,15 +19,23 @@ Route::post('/recover-password', [AuthController::class, "recoverPasswordPost"])
 Route::get('/menu', [Controllers\MenuController::class, "index"]);
 Route::get('/menu/categoria/{id}', [Controllers\MenuController::class, "category"]);
 Route::get('/menu/platillo/{id}', [Controllers\MenuController::class, "dish"]);
+Route::post('/menu/platillo', [Controllers\MenuController::class, "addDish"]);
+Route::get('/menu/orden', [Controllers\MenuController::class, "order"]);
+Route::get('/menu/cancelar-orden', [Controllers\MenuController::class, "cancelOrder"]);
 
-Route::get('/test', function(){
+/*Route::get('/test', function(){
     $firebase = new FirebaseService();
     dd($firebase->saveOrder());
-});
+});*/
 
-Route::get('/listen-orders', function(){
-    return view('kitchen.orders.index');
-});
+
+
+/*Route::prefix('cocina')->middleware('auth')->group(function () {
+    Route::get('/ordenes', function(){
+        return view('kitchen.orders.index');
+    });
+
+});*/
 
 
 Route::prefix('panel')->middleware('auth')->group(function () {
@@ -38,9 +46,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
 
     Route::get('auth/logout', [Controllers\AuthController::class, "logout"]);
     Route::get('/dashboard', [Controllers\Panel\DashboardController::class, "index"]);
-    Route::resource('/qr', Controllers\Panel\QRController::class)->only([
-        'index', 'show', 'update'
-    ]);
+    Route::resource('/qr', Controllers\Panel\QRController::class)->only(['index', 'show', 'update']);
     Route::get('cambiar-sucursal/{branchId}', function(Request $request, $branchId){
         $branch = Branch::find($branchId);
         $request->session()->put('branch', $branch);
@@ -54,6 +60,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
     Route::resource('/categorias', Controllers\Panel\CategoryController::class);
     Route::resource('/sucursales', Controllers\Panel\BranchController::class);
     Route::resource('/mesas', Controllers\Panel\TableController::class);
+    Route::resource('/usuarios', Controllers\Panel\UserController::class);
 });
 
 Route::prefix('cocina')->middleware('auth')->group(function(){

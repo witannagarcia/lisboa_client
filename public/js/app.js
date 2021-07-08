@@ -19139,6 +19139,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/orders.scss":
+/*!************************************!*\
+  !*** ./resources/sass/orders.scss ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -19444,6 +19457,7 @@ process.umask = function() { return 0; };
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
 /******/ 			"css/kitchen": 0,
+/******/ 			"css/orders": 0,
 /******/ 			"css/menu": 0,
 /******/ 			"css/style": 0,
 /******/ 			"css/auth": 0
@@ -19494,11 +19508,12 @@ process.umask = function() { return 0; };
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/auth.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/style.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/menu.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/kitchen","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/kitchen.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/auth.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/menu.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/kitchen.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/kitchen","css/orders","css/menu","css/style","css/auth"], () => (__webpack_require__("./resources/sass/orders.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

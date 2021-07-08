@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
 .sass("resources/sass/style.scss", "public/css")
 .sass("resources/sass/menu.scss", "public/css")
 .sass("resources/sass/kitchen.scss", "public/css")
+.sass("resources/sass/orders.scss", "public/css")
 .options({
     processCssUrls: false,
 });

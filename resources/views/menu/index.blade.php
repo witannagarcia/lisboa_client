@@ -4,8 +4,8 @@
 <h3 class="text-center text-white poppins">{{ $restaurant->name }}</h3>
 <div class="row mb-2">
     @if(!is_null($table))
-    <div class="col-6">
-        Mesa: 
+    <div class="col-6 text-white text-left">
+        Mesa: {{ $table }}
     </div>
     <div class="col-6 text-white text-right">
         Sucursal: {{$branch->name}}
@@ -25,7 +25,7 @@
     <div class="row">        
             @foreach($branch->categories as $category)
                 <div class="col-6 categoryBox rounded my-2">
-                    <a href="{{ url('/menu/categoria/'.$category->id) }}">
+                    <a href="{{ url('/menu/categoria/'.$category->id.'?branch_id='.$branch->id.'&table='.$table) }}">
                         <img src="{{ Storage::disk('public')->url($category->image_banner) }}" class="mw-100" alt="">
                         <span class="poppins">{{ $category->name }}</span> 
                     </a>                            

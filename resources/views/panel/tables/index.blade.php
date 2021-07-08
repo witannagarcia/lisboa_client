@@ -4,28 +4,62 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4" style="height: 600px;">
-                <div class="card-body h-100 p2 pb-2">
-                    <div class="row h-100">
+            <div class="card mb-4">
+                <div class="card-body p2 pb-2">
+                    <div class="row">
                         <div class="col-12">
-                            <h5>Tablas</h5>
+                            <h5>Configuración de mesas</h5>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-2 col-sm-offset-3 form-group">
-                                  <label>Width (px)</label>
-                                  <input type="number" id="width" class="form-control" value="302" />
+                                <div class="col-sm-8">
+                                    <div class="btn-group w-100 mb-3">
+                                        <button class="btn btn-primary rectangle">+ &#9647; Mesa</button>
+                                        <button class="btn btn-primary circle">+ &#9711; Mesa</button>
+                                        <button class="btn btn-primary triangle">+ &#9651; Mesa</button>
+                                        <button class="btn btn-primary chair">+ Silla</button>
+                                        <button class="btn btn-primary bar">+ Bar / Barra</button>
+                                        <button class="btn btn-default wall">+ Muro</button>
+                                        <button class="btn btn-danger remove">Eliminar</button>
+                                        <!--<button class="btn btn-warning customer-mode">Customer mode</button>-->
+                                    </div>
                                 </div>
-                                <div class="col-sm-2 form-group">
-                                  <label>Height (px)</label>
-                                  <input type="number" id="height" class="form-control" value="812" />
+                                <div class="col-sm-4">
+                                    <a class="btn btn-primary btn-block d-none QrShow">Ver código QR</a>
                                 </div>
-                                <div class="col-sm-2 form-group">
-                                  <label>&nbsp;</label>
-                                  <br />
-                                  <button class="btn btn-primary">Save</button>
+                                <div class="form-group customer-menu" style="display: none;">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success submit">Submit reservation</button>
+                                        <button class="btn btn-warning admin-mode">Admin mode</button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div id="slider"></div>
+                                    <div id="slider-value"></div>
                                 </div>
-                              </div>
-                            <canvas id="canvas" class="w-100"></canvas>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class='resizable mh-100 mw-100 mx-auto'
+                                        style="width: {{ $branch->table->width }}px; height: {{ $branch->table->height }}px;">
+                                        <div class='resizers'>
+                                            <div class='resizer top-left'></div>
+                                            <div class='resizer top-right'></div>
+                                            <div class='resizer bottom-left'></div>
+                                            <div class='resizer bottom-right'></div>
+                                        </div>
+                                        <canvas id="canvas"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+
+                                </div>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-sm-12 text-center">
+                                    <div class="btn btn-primary getObjects">Guardar configuración</div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -39,8 +73,11 @@
     <script>
         let canvas
         let number
+        let widthResizable = parseInt("{{ $branch->table->width }}")
+        heightResizable = parseInt("{{ $branch->table->height }}")
         const grid = 30
-        const backgroundColor = '#f8f8f8'
+        let selectedTable;
+        const backgroundColor = '#ccc'
         const lineStroke = '#ebebeb'
         const tableFill = 'rgba(150, 111, 51, 0.7)'
         const tableStroke = '#694d23'
@@ -62,23 +99,41 @@
 
         let canvasEl = document.getElementById('canvas')
 
+        $(document).on('click', '.QrShow', function() {
+            $.ajax({
+                    url: "{{ url('/panel/mesas') }}/"+selectedTable.number,
+                    type: 'GET',
+                    success: function(data){
+                        console.log(data)
+                        $('#QRModal .modal-body').html(data.qrCode); 
+                    $('#QRModal').modal('show')
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+        })
+
         function initCanvas() {
             if (canvas) {
                 canvas.clear()
                 canvas.dispose()
             }
 
-            canvas = new fabric.Canvas('canvas')
+            canvas = new fabric.Canvas('canvas', {
+                //backgroundColor: 'rgb(190,100,200)',
+                width: $('.resizable').width(),
+                height: $('.resizable').height()
+            })
             number = 1
             canvas.backgroundColor = backgroundColor
             /*canvas.setBackgroundImage(
-                'https://presspack.rte.ie/wp-content/blogs.dir/2/files/2015/04/AMC_TWD_Maggie_Portraits_4817_V1.jpg',
+                'https://img.freepik.com/free-photo/tile-wall-background_63047-967.jpg?size=626&ext=jpg',
                 canvas.renderAll.bind(canvas));*/
-                console.log(canvas)
+            //canvas.backgroundColor = new fabric.Pattern({source: 'https://img.freepik.com/free-photo/tile-wall-background_63047-967.jpg?size=626&ext=jpg'})
 
-
-            for (let i = 0; i < (canvas.height / grid); i++) {
-                const lineX = new fabric.Line([0, i * grid, canvas.height, i * grid], {
+            for (let i = 0; i < (canvas.height / (grid / 5)); i++) {
+                const lineX = new fabric.Line([0, i * grid, canvas.width, i * grid], {
                     stroke: lineStroke,
                     selectable: false,
                     type: 'line'
@@ -93,12 +148,26 @@
                 canvas.add(lineY)
             }
 
+            $('.canvas-container').css({
+                position: ''
+            });
+
             canvas.on('object:moving', function(e) {
                 snapToGrid(e.target)
             })
 
+            canvas.on('object:selected', function(e) {
+                console.log(e.target)
+                if (e.target.type == "table") {
+                    selectedTable = e.target
+                    $('.QrShow').removeClass('d-none')
+                } else {
+                    $('.QrShow').addClass('d-none')
+                }
+            });
+
             canvas.on('object:scaling', function(e) {
-                if (e.target.scaleX > 5) {
+                /*if (e.target.scaleX > 5) {
                     e.target.scaleX = 5
                 }
                 if (e.target.scaleY > 5) {
@@ -112,13 +181,13 @@
                     if (e.target.strokeWidth === e.target.strokeWidthUnscaled) {
                         e.target.strokeWidth = e.target.strokeWidthUnscaled / e.target.scaleY
                     }
-                }
+                }*/
             })
 
             canvas.on('object:modified', function(e) {
-                e.target.scaleX = e.target.scaleX >= 0.25 ? (Math.round(e.target.scaleX * 2) / 2) : 0.5
+                /*e.target.scaleX = e.target.scaleX >= 0.25 ? (Math.round(e.target.scaleX * 2) / 2) : 0.5
                 e.target.scaleY = e.target.scaleY >= 0.25 ? (Math.round(e.target.scaleY * 2) / 2) : 0.5
-                snapToGrid(e.target)
+                snapToGrid(e.target)*/
                 if (e.target.type === 'table') {
                     canvas.bringToFront(e.target)
                 } else {
@@ -127,49 +196,39 @@
                 sendLinesToBack()
             })
 
-            /*canvas.observe('object:moving', function(e) {
+            canvas.observe('object:moving', function(e) {
                 checkBoudningBox(e)
             })
             canvas.observe('object:rotating', function(e) {
                 checkBoudningBox(e)
             })
             canvas.observe('object:scaling', function(e) {
-                checkBoudningBox(e)
-            })*/
+                //checkBoudningBox(e)
+            })
+
         }
+
         initCanvas()
 
         function resizeCanvas() {
-            widthEl = document.getElementById('width')
-            heightEl = document.getElementById('height')
-            //canvasEl.width = widthEl.value ? widthEl.value : 3
-            //canvasEl.height = heightEl.value ? heightEl.value : 812
+            canvasEl.width = $('.resizeble').width();
+            canvasEl.height = $('.resizeble').height();
             const canvasContainerEl = document.querySelectorAll('.canvas-container')[0]
-           // canvasContainerEl.style.width = canvasEl.width
-            //canvasContainerEl.style.height = canvasEl.height
+            canvasContainerEl.style.width = $('.resizeble').width();
+            canvasContainerEl.style.height = $('.resizeble').height();
         }
-        resizeCanvas()
-
-        widthEl.addEventListener('change', () => {
-            resizeCanvas()
-            initCanvas()
-            addDefaultObjects()
-        })
-        heightEl.addEventListener('change', () => {
-            resizeCanvas()
-            initCanvas()
-            addDefaultObjects()
-        })
 
         function generateId() {
             return Math.random().toString(36).substr(2, 8)
         }
 
-        function addRect(left, top, width, height) {
+        function addRect(left, top, width, height, scaleX, scaleY) {
             const id = generateId()
             const o = new fabric.Rect({
                 width: width,
                 height: height,
+                scaleX: scaleX,
+                scaleY: scaleY,
                 fill: tableFill,
                 stroke: tableStroke,
                 strokeWidth: 2,
@@ -229,7 +288,7 @@
                 centeredRotation: true,
                 snapAngle: 45,
                 selectable: true,
-                type: 'table',
+                type: 'circle',
                 id: id,
                 number: number
             })
@@ -264,7 +323,7 @@
                 centeredRotation: true,
                 snapAngle: 45,
                 selectable: true,
-                type: 'table',
+                type: 'triangle',
                 id: id,
                 number: number
             })
@@ -393,17 +452,17 @@
         }
 
         document.querySelectorAll('.rectangle')[0].addEventListener('click', function() {
-            const o = addRect(0, 0, 60, 60)
+            const o = addRect(0, 0, 60, 60, 1, 1, number)
             canvas.setActiveObject(o)
         })
 
         document.querySelectorAll('.circle')[0].addEventListener('click', function() {
-            const o = addCircle(0, 0, 30)
+            const o = addCircle(0, 0, 30, number)
             canvas.setActiveObject(o)
         })
 
         document.querySelectorAll('.triangle')[0].addEventListener('click', function() {
-            const o = addTriangle(0, 0, 30)
+            const o = addTriangle(0, 0, 30, number)
             canvas.setActiveObject(o)
         })
 
@@ -432,7 +491,7 @@
             }
         })
 
-        document.querySelectorAll('.customer-mode')[0].addEventListener('click', function() {
+        /*document.querySelectorAll('.customer-mode')[0].addEventListener('click', function() {
             canvas.getObjects().map(o => {
                 o.hasControls = false
                 o.lockMovementX = true
@@ -449,7 +508,7 @@
             canvas.renderAll()
             document.querySelectorAll('.admin-menu')[0].style.display = 'none'
             document.querySelectorAll('.customer-menu')[0].style.display = 'block'
-        })
+        })*/
 
         document.querySelectorAll('.admin-mode')[0].addEventListener('click', function() {
             canvas.getObjects().map(o => {
@@ -481,18 +540,48 @@
             return normal + ' (' + english + ')'
         }
 
-        document.querySelectorAll('.submit')[0].addEventListener('click', function() {
-            const obj = canvas.getActiveObject()
-            $('#modal').modal('show')
-            let modalText = 'You have not selected anything'
-            if (obj) {
-                modalText = 'You have selected table ' + obj.number + ', time: ' + formatTime(slider.noUiSlider
-                .get())
+        $(document).on('click', '.getObjects', async function() {
+            objs = []
+            await canvas.getObjects().filter((item) => {
+                return item.type !== 'line'
+            }).map((item) => {
+                objs.push({
+                    width: item.width,
+                    height: item.height,
+                    type: item.type,
+                    number: item.number,
+                    left: item.left,
+                    top: item.top,
+                    scaleX: item.scaleX,
+                    scaleY: item.scaleY,
+                })
+            })
+
+            if (objs.length == 0) {
+                console.log(canvas.getObjects())
+                return false;
             }
-            document.querySelectorAll('#modal-table-id')[0].innerHTML = modalText
+
+            $.ajax({
+                url: "{{ url('/panel/mesas/' . session()->get('branch')->id) }}",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    _method: "PUT",
+                    type: "elements",
+                    elements: objs,
+                },
+                success: function(data) {
+                    tata.success('Éxito', data.msg)
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            })
         })
 
-        const slider = document.getElementById('slider')
+        /*const slider = document.getElementById('slider')
         noUiSlider.create(slider, {
             start: 1200,
             step: 15,
@@ -506,61 +595,176 @@
         const sliderValue = document.getElementById('slider-value')
         slider.noUiSlider.on('update', function(values, handle) {
             sliderValue.innerHTML = formatTime(values[handle])
-        })
+        })*/
 
         function addDefaultObjects() {
-            addChair(15, 105)
-            addChair(15, 135)
-            addChair(75, 105)
-            addChair(75, 135)
-            addChair(225, 75)
-            addChair(255, 75)
-            addChair(225, 135)
-            addChair(255, 135)
-            addChair(225, 195)
-            addChair(255, 195)
-            addChair(225, 255)
-            addChair(255, 255)
-            addChair(15, 195)
-            addChair(45, 195)
-            addChair(15, 255)
-            addChair(45, 255)
-            addChair(15, 315)
-            addChair(45, 315)
-            addChair(15, 375)
-            addChair(45, 375)
-            addChair(225, 315)
-            addChair(255, 315)
-            addChair(225, 375)
-            addChair(255, 375)
-            addChair(15, 435)
-            addChair(15, 495)
-            addChair(15, 555)
-            addChair(15, 615)
-            addChair(225, 615)
-            addChair(255, 615)
-            addChair(195, 495)
-            addChair(195, 525)
-            addChair(255, 495)
-            addChair(255, 525)
-            addChair(225, 675)
-            addChair(255, 675)
+            addChair(40, 75)
+            addChair(80, 75)
+            addChair(40, 135)
+            addChair(80, 135)
 
-            addRect(30, 90, 60, 90)
-            addRect(210, 90, 90, 60)
-            addRect(210, 210, 90, 60)
-            addRect(0, 210, 90, 60)
-            addRect(0, 330, 90, 60)
-            addRect(210, 330, 90, 60)
-            addRect(0, 450, 60, 60)
-            addRect(0, 570, 60, 60)
-            addRect(210, 480, 60, 90)
-            addRect(210, 630, 90, 60)
+            addChair(170, 75)
+            addChair(210, 75)
+            addChair(170, 135)
+            addChair(210, 135)
+
+            addRect(30, 90, 90, 60, 1, 1)
+            addRect(160, 90, 90, 60, 1, 1)
 
             addBar(120, 0, 180, 60)
-
-            addWall(120, 510, 60, 60)
         }
-        addDefaultObjects()
+
+        function getElements() {
+            $.ajax({
+                url: "{{ url('/panel/mesas') }}",
+                method: "GET",
+                success: function(data) {
+                    if (data.data.elements.length > 0) {
+                        data.data.elements.map((item) => {
+                            switch (item.type) {
+                                case "table":
+                                    addRect(item.left, item.top, item.width, item.height, item.scaleX,
+                                        item.scaleY);
+                                    break;
+                                case "circle":
+                                    addCircle(item.left, item.top, item.width, item.height, 30)
+                                    break;
+                                case "triangle":
+                                    addTriangle(item.left, item.top, item.width, item.height, 30)
+                                    break;
+                                case "bar":
+                                    addBar(item.left, item.top, item.width, item.height)
+                                    break;
+                                case "chair":
+                                    addChair(item.left, item.top)
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        })
+
+                    } else {
+                        addDefaultObjects()
+                    }
+                }
+            })
+        }
+
+        getElements();
+
+        function debounce(func) {
+            var timer;
+            return function(event) {
+                if (timer) clearTimeout(timer);
+                timer = setTimeout(func, 1500, event);
+            };
+        }
+
+        function makeResizableDiv(div) {
+            const element = document.querySelector(div);
+            const resizers = document.querySelectorAll(div + ' .resizer')
+            const minimum_size = 20;
+            let original_width = 0;
+            let original_height = 0;
+            let original_x = 0;
+            let original_y = 0;
+            let original_mouse_x = 0;
+            let original_mouse_y = 0;
+            for (let i = 0; i < resizers.length; i++) {
+                const currentResizer = resizers[i];
+                currentResizer.addEventListener('mousedown', function(e) {
+                    e.preventDefault()
+                    original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace(
+                        'px', ''));
+                    original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace(
+                        'px', ''));
+                    original_x = element.getBoundingClientRect().left;
+                    original_y = element.getBoundingClientRect().top;
+                    original_mouse_x = e.pageX;
+                    original_mouse_y = e.pageY;
+                    window.addEventListener('mousemove', resize)
+                    window.addEventListener('mouseup', stopResize)
+                })
+
+                function resize(e) {
+                    if (currentResizer.classList.contains('bottom-right')) {
+                        const width = original_width + (e.pageX - original_mouse_x);
+                        const height = original_height + (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                        }
+                    } else if (currentResizer.classList.contains('bottom-left')) {
+                        const height = original_height + (e.pageY - original_mouse_y)
+                        const width = original_width - (e.pageX - original_mouse_x)
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                        }
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                            //element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                        }
+                    } else if (currentResizer.classList.contains('top-right')) {
+                        const width = original_width + (e.pageX - original_mouse_x)
+                        const height = original_height - (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                            //element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                        }
+                    } else {
+                        const width = original_width - (e.pageX - original_mouse_x)
+                        const height = original_height - (e.pageY - original_mouse_y)
+                        if (width > minimum_size) {
+                            element.style.width = width + 'px'
+                            //element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                        }
+                        if (height > minimum_size) {
+                            element.style.height = height + 'px'
+                            //element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                        }
+                    }
+                }
+
+                function stopResize() {
+                    console.log('dejo de moverse')
+                    widthResizable = $('.resizable').width();
+                    heightResizable = $('.resizable').height();
+
+                    $.ajax({
+                        url: "{{ url('/panel/mesas/' . session()->get('branch')->id) }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: "PUT",
+                            type: "size",
+                            width: widthResizable,
+                            height: heightResizable,
+                        },
+                        success: function(data) {
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    })
+
+                    /*window.removeEventListener('mousemove', resize)                    
+
+                    initCanvas();
+                    getElements();*/
+                    //resizeCanvas();
+                }
+            }
+        }
+
+        makeResizableDiv('.resizable')
     </script>
 @endsection
